@@ -1,4 +1,4 @@
-package com.iff.sistema_gerenciamento_hospital.controllers;
+package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

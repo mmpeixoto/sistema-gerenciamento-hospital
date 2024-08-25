@@ -17,7 +17,7 @@ public class MedicoService {
     private EnderecoRepository enderecoRepository;
 
     public Medico inserirMedico(Medico medico) {
-        if (medicoRepository.acharPorLicenca(medico.getLicenca()).isPresent()){
+        if (medicoRepository.acharPorLicenca(medico.getLicenca()).isPresent()) {
             throw new BadRequestException("Erro: Médico com está licença já cadastrado!");
         }
 
@@ -28,5 +28,8 @@ public class MedicoService {
         enderecoRepository.save(medico.getEndereco());
         return medicoRepository.save(medico);
     }
-    public List<Medico> listarMedicos() {return medicoRepository.findAll(); }
+
+    public List<Medico> listarMedicos() {
+        return medicoRepository.findAll();
+    }
 }

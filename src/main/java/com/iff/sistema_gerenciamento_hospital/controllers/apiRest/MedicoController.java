@@ -25,5 +25,7 @@ public class MedicoController {
     }
 
     @PostMapping
-    public Medico cadastrar(@RequestBody Medico medico) {return medicoService.inserirMedico(medico);}
+    public Medico cadastrar(@RequestBody Medico medico) {
+        return medicoService.inserirMedico(medico);
+    }
 }

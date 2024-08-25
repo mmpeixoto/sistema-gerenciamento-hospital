@@ -20,14 +20,14 @@ public class ConsultaService {
     private ConsultaRepository consultaRepository;
 
     @Autowired
-    private PacienteRepository pacienteRepository;
+    private PacienteService pacienteService;
 
     @Autowired
-    private MedicoRepository medicoRepository;
+    private MedicoService medicoService;
 
     public Consulta inserirConsulta(Consulta consulta) {
-        Optional<Paciente> paciente = pacienteRepository.findById(consulta.getPaciente().getId());
-        Optional<Medico> medico = medicoRepository.findById(consulta.getMedico().getId());
+        Optional<Paciente> paciente = pacienteService.buscarPacientePorId(consulta.getPaciente().getId());
+        Optional<Medico> medico = medicoService.buscarMedicoPorId(consulta.getMedico().getId());
 
         if (paciente.isEmpty()) {
             throw new BadRequestException("Erro: Paciente não encontrado");

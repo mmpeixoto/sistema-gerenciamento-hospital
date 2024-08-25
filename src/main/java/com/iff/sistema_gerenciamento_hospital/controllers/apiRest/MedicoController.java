@@ -1,10 +1,7 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
@@ -22,6 +19,16 @@ public class MedicoController {
     @GetMapping
     public List<Medico> listar() {
         return medicoService.listarMedicos();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Medico> acharMedicoPorId(@PathVariable String id) {
+        return medicoService.buscarMedicoPorId(id).map(medico -> ResponseEntity.ok(medico)).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/licenca/{licenca}")
+    public ResponseEntity<Medico> acharMedicoPorLicenca(@PathVariable String licenca) {
+        return medicoService.buscarMedicoPorLicenca(licenca).map(medico -> ResponseEntity.ok(medico)).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

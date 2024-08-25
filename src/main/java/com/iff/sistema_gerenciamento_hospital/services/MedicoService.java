@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MedicoService {
@@ -32,4 +33,13 @@ public class MedicoService {
     public List<Medico> listarMedicos() {
         return medicoRepository.findAll();
     }
+
+    public Optional<Medico> buscarMedicoPorId(String id) {
+        return medicoRepository.findById(id);
+    }
+
+    public Optional<Medico> buscarMedicoPorLicenca(String licenca) {
+        return medicoRepository.acharPorLicenca(licenca);
+    }
+
 }

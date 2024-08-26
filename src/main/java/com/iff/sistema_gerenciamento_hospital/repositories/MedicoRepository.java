@@ -15,4 +15,7 @@ public interface MedicoRepository extends JpaRepository<Medico, String> {
 
     @Query("select m from Medico m where m.licenca=?1")
     Optional<Medico> acharPorLicenca(String licenca);
+
+    @Query("select m from Medico m where m.cpf=?1")
+    Optional<Medico> acharPorCpf(String cpf);
 }

@@ -38,4 +38,8 @@ public class PacienteService {
         return pacienteRepository.findById(id);
     }
 
+    public Optional<Paciente> buscarPacientePorCpf(String cpf) {
+        return pacienteRepository.acharPorCpf(cpf);
+    }
+
 }

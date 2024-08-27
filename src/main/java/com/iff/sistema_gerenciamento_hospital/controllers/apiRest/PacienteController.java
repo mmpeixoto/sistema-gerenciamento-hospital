@@ -1,13 +1,11 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
+import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,15 @@ public class PacienteController {
     @PostMapping
     public Paciente cadastrar(@RequestBody Paciente paciente) {
         return pacienteService.inserirPaciente(paciente);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Paciente> acharPacientePorId(@PathVariable String id) {
+        return pacienteService.buscarPacientePorId(id).map(paciente -> ResponseEntity.ok(paciente)).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<Paciente> acharPacientePorCpf(@PathVariable String cpf) {
+        return pacienteService.buscarPacientePorCpf(cpf).map(paciente -> ResponseEntity.ok(paciente)).orElse(ResponseEntity.notFound().build());
     }
 }

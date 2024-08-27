@@ -7,7 +7,6 @@ import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundExceptio
 import com.iff.sistema_gerenciamento_hospital.repositories.EnderecoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,29 +20,11 @@ public class PacienteService {
     private EnderecoRepository enderecoRepository;
 
     public Paciente inserirPaciente(Paciente paciente) {
-        if (pacienteRepository.acharPorCpf(paciente.getCpf()).isPresent()) {
-            throw new BadRequestException("Erro: CPF do cliente ja cadastrado!");
-        }
+        verificarCpfExistente(paciente.getCpf());
 
-        Endereco endereco = paciente.getEndereco();
-        if (endereco == null) {
-            throw new BadRequestException("Erro: O endereço é necessário para o cadastro do cliente");
-        }
+        Endereco endereco = verificarOuSalvarEndereco(paciente.getEndereco());
 
-        Optional<Endereco> enderecoExistente = enderecoRepository.acharPorCepLogradouroNumeroComplemento(
-                endereco.getCep(),
-                endereco.getLogradouro(),
-                endereco.getNumero(),
-                endereco.getComplemento()
-        );
-
-        if (enderecoExistente.isPresent()) {
-            paciente.setEndereco(enderecoExistente.get());
-        } else{
-            enderecoRepository.save(paciente.getEndereco());
-            paciente.setEndereco(endereco);
-        }
-
+        paciente.setEndereco(endereco);
         return pacienteRepository.save(paciente);
     }
 
@@ -52,20 +33,33 @@ public class PacienteService {
     }
 
     public Optional<Paciente> buscarPacientePorId(String id) {
-        return pacienteRepository.findById(id);
+        Optional<Paciente> pacienteEncontrado = pacienteRepository.findById(id);
+        if (pacienteEncontrado.isEmpty()) {
+            throw new NotFoundException("Paciente não encontrado!");
+        }
+        return pacienteEncontrado;
     }
 
     public Optional<Paciente> buscarPacientePorCpf(String cpf) {
-        return pacienteRepository.acharPorCpf(cpf);
+        Optional<Paciente> pacienteEncontrado = pacienteRepository.acharPorCpf(cpf);
+        if (pacienteEncontrado.isEmpty()) {
+            throw new NotFoundException("Paciente não encontrado!");
+        }
+        return pacienteEncontrado;
     }
 
     public Paciente atualizarPaciente(String id, Paciente paciente) {
         Paciente pacienteExistente = pacienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
-        if (pacienteRepository.acharPorCpf(paciente.getCpf()).isPresent() && !pacienteExistente.getCpf().equals(paciente.getCpf())) {
-            throw new BadRequestException("Erro: CPF do cliente ja cadastrado!");
+        if (!pacienteExistente.getCpf().equals(paciente.getCpf())) {
+            verificarCpfExistente(paciente.getCpf());
         }
+
+        Endereco endereco = verificarOuSalvarEndereco(paciente.getEndereco());
+
         paciente.setId(id);
-        return inserirPaciente(paciente);
+        paciente.setEndereco(endereco);
+
+        return pacienteRepository.save(paciente);
     }
 
     public void deletarPaciente(String id) {
@@ -74,6 +68,25 @@ public class PacienteService {
         } else {
             throw new NotFoundException("Paciente não encontrado!");
         }
+    }
+
+    private void verificarCpfExistente(String cpf) {
+        if (pacienteRepository.acharPorCpf(cpf).isPresent()) {
+            throw new BadRequestException("Erro: CPF do cliente já cadastrado!");
+        }
+    }
+
+    private Endereco verificarOuSalvarEndereco(Endereco endereco) {
+        if (endereco == null) {
+            throw new BadRequestException("Erro: O endereço é necessário para o cadastro do cliente");
+        }
+
+        return enderecoRepository.acharPorCepLogradouroNumeroComplemento(
+                endereco.getCep(),
+                endereco.getLogradouro(),
+                endereco.getNumero(),
+                endereco.getComplemento()
+        ).orElseGet(() -> enderecoRepository.save(endereco));
     }
 
 }

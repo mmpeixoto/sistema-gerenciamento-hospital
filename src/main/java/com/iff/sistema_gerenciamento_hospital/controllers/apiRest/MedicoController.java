@@ -42,8 +42,8 @@ public class MedicoController {
         return ResponseEntity.ok(medicoService.atualizarMedico(id, medico));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> removerMedico(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarMedico(@PathVariable String id) {
         medicoService.deletarMedico(id);
         return ResponseEntity.noContent().build();
     }

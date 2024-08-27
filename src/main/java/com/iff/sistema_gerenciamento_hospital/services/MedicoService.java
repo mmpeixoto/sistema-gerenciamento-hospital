@@ -20,32 +20,21 @@ public class MedicoService {
     private EnderecoRepository enderecoRepository;
 
     public Medico inserirMedico(Medico medico) {
-        if (medicoRepository.acharPorLicenca(medico.getLicenca()).isPresent()) {
-            throw new BadRequestException("Erro: Médico com está licença já cadastrado!");
+        verificarLicencaExistente(medico.getLicenca());
+
+        verificarCpfExistente(medico.getCpf());
+
+        if (medico.getCpf() == null) {
+            throw new BadRequestException("Erro: O CPF é necessário para o cadastro do médico");
         }
 
-        if (medicoRepository.acharPorCpf(medico.getCpf()).isPresent()) {
-            throw new BadRequestException("Erro: CPF do médico já cadastrado!");
+        if (medico.getLicenca() == null) {
+            throw new BadRequestException("Erro: O número de licença é necessário para o cadastro do médico");
         }
 
-        Endereco endereco = medico.getEndereco();
-        if (endereco == null) {
-            throw new BadRequestException("Erro: O endereço é necessário para o cadastro do médico");
-        }
+        Endereco endereco = verificarOuSalvarEndereco(medico.getEndereco());
 
-        Optional<Endereco> enderecoExistente = enderecoRepository.acharPorCepLogradouroNumeroComplemento(
-                endereco.getCep(),
-                endereco.getLogradouro(),
-                endereco.getNumero(),
-                endereco.getComplemento()
-        );
-
-        if (enderecoExistente.isPresent()) {
-            medico.setEndereco(enderecoExistente.get());
-        } else{
-            enderecoRepository.save(medico.getEndereco());
-            medico.setEndereco(endereco);
-        }
+        medico.setEndereco(endereco);
         return medicoRepository.save(medico);
     }
 
@@ -70,11 +59,20 @@ public class MedicoService {
     public Medico atualizarMedico(String id, Medico medico){
         Medico medicoExistente = medicoRepository.findById(id).orElseThrow(() -> new NotFoundException("Médico não encontrado!"));
 
-        if (medicoRepository.acharPorLicenca(medico.getLicenca()).isPresent() && !medicoExistente.getLicenca().equals(medico.getLicenca()) && !medicoExistente.getCpf().equals(medico.getCpf())) {
-            throw new BadRequestException("CPF e/ou Licenca já cadastrado(s)");
+        if (!medicoExistente.getCpf().equals(medico.getCpf())) {
+            verificarCpfExistente(medico.getCpf());
         }
+
+        if (!medicoExistente.getLicenca().equals(medico.getLicenca())) {
+            verificarLicencaExistente(medico.getLicenca());
+        }
+
+        Endereco endereco = verificarOuSalvarEndereco(medico.getEndereco());
+
         medico.setId(id);
-        return inserirMedico(medico);
+        medico.setEndereco(endereco);
+
+        return medicoRepository.save(medico);
     }
 
     public void deletarMedico(String id) {
@@ -86,4 +84,28 @@ public class MedicoService {
         }
     }
 
+    private void verificarCpfExistente(String cpf) {
+        if (medicoRepository.acharPorCpf(cpf).isPresent()) {
+            throw new BadRequestException("Erro: CPF do médico já cadastrado!");
+        }
+    }
+
+    private void verificarLicencaExistente(String licenca) {
+        if (medicoRepository.acharPorLicenca(licenca).isPresent()) {
+            throw new BadRequestException("Erro: Médico com está licença já cadastrado!");
+        }
+    }
+
+    private Endereco verificarOuSalvarEndereco(Endereco endereco) {
+        if (endereco == null) {
+            throw new BadRequestException("Erro: O endereço é necessário para o cadastro do médico");
+        }
+
+        return enderecoRepository.acharPorCepLogradouroNumeroComplemento(
+                endereco.getCep(),
+                endereco.getLogradouro(),
+                endereco.getNumero(),
+                endereco.getComplemento()
+        ).orElseGet(() -> enderecoRepository.save(endereco));
+    }
 }

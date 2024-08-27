@@ -1,5 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,18 @@ public class MedicoController {
     }
 
     @PostMapping
-    public Medico cadastrar(@RequestBody Medico medico) {
-        return medicoService.inserirMedico(medico);
+    public ResponseEntity<Medico> cadastrar(@RequestBody Medico medico) {
+        return ResponseEntity.ok(medicoService.inserirMedico(medico));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Medico> atualizarMedico(@PathVariable String id, @RequestBody Medico medico) throws IllegalAccessException {
+        return ResponseEntity.ok(medicoService.atualizarMedico(id, medico));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> removerMedico(@PathVariable String id) {
+        medicoService.deletarMedico(id);
+        return ResponseEntity.noContent().build();
     }
 }

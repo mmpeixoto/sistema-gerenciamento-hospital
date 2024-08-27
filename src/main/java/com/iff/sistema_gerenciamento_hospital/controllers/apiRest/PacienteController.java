@@ -34,4 +34,15 @@ public class PacienteController {
     public ResponseEntity<Paciente> acharPacientePorCpf(@PathVariable String cpf) {
         return pacienteService.buscarPacientePorCpf(cpf).map(paciente -> ResponseEntity.ok(paciente)).orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Paciente> atualizarPaciente(@PathVariable String id, @RequestBody Paciente paciente) {
+        return ResponseEntity.ok(pacienteService.atualizarPaciente(id, paciente));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPaciente(@PathVariable String id) {
+        pacienteService.deletarPaciente(id);
+        return ResponseEntity.noContent().build();
+    }
 }

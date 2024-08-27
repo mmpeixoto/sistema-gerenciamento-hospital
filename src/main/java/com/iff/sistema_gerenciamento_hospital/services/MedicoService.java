@@ -1,7 +1,9 @@
 package com.iff.sistema_gerenciamento_hospital.services;
 
+import com.iff.sistema_gerenciamento_hospital.domain.entities.Endereco;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import com.iff.sistema_gerenciamento_hospital.domain.exceptions.BadRequestException;
+import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundException;
 import com.iff.sistema_gerenciamento_hospital.repositories.EnderecoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +28,24 @@ public class MedicoService {
             throw new BadRequestException("Erro: CPF do médico já cadastrado!");
         }
 
-        if (medico.getEndereco() == null) {
+        Endereco endereco = medico.getEndereco();
+        if (endereco == null) {
             throw new BadRequestException("Erro: O endereço é necessário para o cadastro do médico");
         }
 
-        enderecoRepository.save(medico.getEndereco());
+        Optional<Endereco> enderecoExistente = enderecoRepository.acharPorCepLogradouroNumeroComplemento(
+                endereco.getCep(),
+                endereco.getLogradouro(),
+                endereco.getNumero(),
+                endereco.getComplemento()
+        );
+
+        if (enderecoExistente.isPresent()) {
+            medico.setEndereco(enderecoExistente.get());
+        } else{
+            enderecoRepository.save(medico.getEndereco());
+            medico.setEndereco(endereco);
+        }
         return medicoRepository.save(medico);
     }
 
@@ -50,6 +65,25 @@ public class MedicoService {
             throw new BadRequestException("Erro: Nenhum médico foi cadastrado com esse número de licença");
         }
         return medicoRepository.acharPorLicenca(licenca);
+    }
+
+    public Medico atualizarMedico(String id, Medico medico){
+        Medico medicoExistente = medicoRepository.findById(id).orElseThrow(() -> new NotFoundException("Médico não encontrado!"));
+
+        if (medicoRepository.acharPorLicenca(medico.getLicenca()).isPresent() && !medicoExistente.getLicenca().equals(medico.getLicenca()) && !medicoExistente.getCpf().equals(medico.getCpf())) {
+            throw new BadRequestException("CPF e/ou Licenca já cadastrado(s)");
+        }
+        medico.setId(id);
+        return inserirMedico(medico);
+    }
+
+    public void deletarMedico(String id) {
+        if (medicoRepository.existsById(id)){
+            medicoRepository.deleteById(id);
+        }
+        else{
+            throw new NotFoundException("Médico não encontrado!");
+        }
     }
 
 }

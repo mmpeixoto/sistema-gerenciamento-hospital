@@ -44,14 +44,14 @@ public class MedicoService {
 
     public Optional<Medico> buscarMedicoPorId(String id) {
         if (medicoRepository.findById(id).isEmpty()) {
-            throw new BadRequestException("Erro: Não existe médico com esse ID!");
+            throw new NotFoundException("Erro: Não existe médico com esse ID!");
         }
         return medicoRepository.findById(id);
     }
 
     public Optional<Medico> buscarMedicoPorLicenca(String licenca) {
         if (medicoRepository.acharPorLicenca(licenca).isEmpty()) {
-            throw new BadRequestException("Erro: Nenhum médico foi cadastrado com esse número de licença");
+            throw new NotFoundException("Erro: Nenhum médico foi cadastrado com esse número de licença");
         }
         return medicoRepository.acharPorLicenca(licenca);
     }

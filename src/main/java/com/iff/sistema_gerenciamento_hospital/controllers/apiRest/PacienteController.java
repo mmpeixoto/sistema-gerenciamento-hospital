@@ -1,6 +1,5 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
-import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;

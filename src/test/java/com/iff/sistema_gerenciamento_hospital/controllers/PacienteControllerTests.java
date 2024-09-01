@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +128,64 @@ public class PacienteControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/pacientes/1"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    void deveRetornarPacientePorCpf() throws Exception {
+        Paciente paciente = new Paciente();
+        paciente.setCpf("1");
+
+        given(pacienteService.buscarPacientePorCpf("1")).willReturn(Optional.of(paciente));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/pacientes/cpf/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("1"))
+                .andDo(print());
+    }
+
+    @Test
+    void deveRetornarErroAoBuscarPacienteNaoExistentePorCpf() throws Exception {
+        given(pacienteService.buscarPacientePorId("1")).willReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/pacientes/cpf/1"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    void deveDeletarPacientePorId() throws Exception {
+        Paciente paciente = new Paciente();
+        paciente.setId("1");
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/pacientes/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andDo(print());
+    }
+
+    @Test
+    void deveRetornarErroAoDeletarPacienteNaoExistentePorId() throws Exception {
+        doThrow(new BadRequestException("")).when(pacienteService).deletarPaciente("1");
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/pacientes/1"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void deveAtualizarPacientePorID() throws Exception {
+        Paciente paciente = new Paciente();
+        paciente.setId("1");
+
+        given(pacienteService.atualizarPaciente("1", paciente)).willReturn(paciente);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/pacientes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(paciente)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
                 .andDo(print());
     }
 }

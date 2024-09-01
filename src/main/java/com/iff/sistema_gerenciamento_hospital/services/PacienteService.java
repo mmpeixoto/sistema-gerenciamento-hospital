@@ -20,11 +20,11 @@ public class PacienteService {
     private EnderecoRepository enderecoRepository;
 
     public Paciente inserirPaciente(Paciente paciente) {
-        verificarCpfExistente(paciente.getCpf());
-
         if (paciente.getCpf() == null) {
             throw new BadRequestException("Erro: O CPF é necessário para o cadastro do paciente");
         }
+
+        verificarCpfExistente(paciente.getCpf());
 
         Endereco endereco = verificarOuSalvarEndereco(paciente.getEndereco());
 

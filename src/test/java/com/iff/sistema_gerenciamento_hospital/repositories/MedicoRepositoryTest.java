@@ -8,8 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import javax.swing.text.html.Option;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
@@ -112,7 +110,6 @@ public class MedicoRepositoryTest {
         medico.setCpf("12312312312");
 
         entityManager.persist(medico);
-
         medicoRepository.deleteById(medico.getId());
 
         Optional<Medico> medicoDeletado = medicoRepository.findById(medico.getId());

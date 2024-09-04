@@ -83,4 +83,50 @@ class PacienteRepositoryTest {
         assertThat(pacienteEncontrado).isNotPresent();
     }
 
+    @Test
+    void deletarPaciente_quandoIdExistente_deveDeletarPaciente() {
+        var paciente = new Paciente();
+        paciente.setCpf("123");
+        paciente.setNome("Eu");
+
+        entityManager.persist(paciente);
+
+        pacienteRepository.deleteById(paciente.getId());
+
+        Optional<Paciente> pacienteDeletado = pacienteRepository.findById(paciente.getId());
+
+        assertThat(pacienteDeletado).isNotPresent();
+    }
+
+    @Test
+    void atualizarPaciente_quandoPacienteExistenteModificado_deveAtualizarPaciente() {
+        var paciente = new Paciente();
+        paciente.setCpf("345");
+        paciente.setNome("Joao");
+
+        entityManager.persist(paciente);
+
+        Paciente pacienteExistente = pacienteRepository.findById(paciente.getId()).orElseThrow();
+        pacienteExistente.setNome("Jorge");
+
+        Paciente pacienteAtualizado = pacienteRepository.save(pacienteExistente);
+
+        assertThat(pacienteAtualizado.getNome()).isEqualTo("Jorge");
+        assertThat(pacienteAtualizado.getCpf()).isEqualTo("345");
+        assertThat(entityManager.find(Paciente.class, pacienteAtualizado.getId())).isEqualTo(pacienteAtualizado);
+    }
+
+    @Test
+    void deletarPaciente_quandoEsseNaoPersistidoNoBanco_naoDeveDeletarPaciente() {
+        var pacienteNaoPersistido = new Paciente();
+        pacienteNaoPersistido.setId("id1");
+        pacienteNaoPersistido.setCpf("123456789");
+        pacienteNaoPersistido.setNome("Joao");
+
+        pacienteRepository.delete(pacienteNaoPersistido);
+
+        Optional<Paciente> pacienteEncontrado = pacienteRepository.findById(pacienteNaoPersistido.getId());
+        assertThat(pacienteEncontrado).isNotPresent();
+    }
+
 }

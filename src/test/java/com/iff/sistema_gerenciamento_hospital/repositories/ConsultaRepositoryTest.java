@@ -4,17 +4,13 @@ import com.iff.sistema_gerenciamento_hospital.domain.entities.Consulta;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
-import static org.mockito.Mockito.mock;
 
 import java.util.List;
 import java.util.Optional;

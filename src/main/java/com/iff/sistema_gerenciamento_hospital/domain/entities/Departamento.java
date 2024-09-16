@@ -1,6 +1,7 @@
 package com.iff.sistema_gerenciamento_hospital.domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,7 +28,9 @@ public class Departamento {
     @ManyToOne
     private Medico chefeDeDepartamento;
     @OneToMany(mappedBy = "departamento")
+    @JsonIgnoreProperties("departamento")
     private List<Medico> medicos;
     @OneToMany(mappedBy = "departamento")
+    @JsonIgnoreProperties("departamento")
     private List<Enfermeiro> enfermeiros;
 }

@@ -8,10 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 @Repository
 @Transactional
 public interface MedicoRepository extends JpaRepository<Medico, String> {
@@ -21,8 +17,4 @@ public interface MedicoRepository extends JpaRepository<Medico, String> {
 
     @Query("select m from Medico m where m.cpf=?1")
     Optional<Medico> acharPorCpf(String cpf);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/main

@@ -1,42 +1,36 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
+import com.iff.sistema_gerenciamento_hospital.domain.dtos.ConsultaDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Consulta;
 import com.iff.sistema_gerenciamento_hospital.services.ConsultaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("consultas")
+@RestController
+@RequestMapping("consultas")
 @RequiredArgsConstructor
 public class ConsultaController {
 
     private final ConsultaService consultaService;
 
     @GetMapping
-    public List<Consulta> listarConsultas() {
-        return consultaService.listarConsultas();
-    }
-
-    @GetMapping("paciente/{pacienteId}")
-    public List<Consulta> listarConsultasPorPaciente(@PathVariable String pacienteId) {
-        return consultaService.listarConsultasPaciente(pacienteId);
-    }
-
-    @GetMapping("medico/{medicoId}")
-    public List<Consulta> listarConsultasPorMedico(@PathVariable String medicoId) {
-        return consultaService.listarConsultasMedico(medicoId);
+    public List<Consulta> listarConsultas(@RequestParam(defaultValue = "") String pacienteId,
+                                          @RequestParam(defaultValue = "") String medicoId) {
+        return consultaService.listarConsultas(pacienteId, medicoId);
     }
 
     @PostMapping
-    public Consulta cadastrarConsulta(@RequestBody Consulta consulta) {
-        return consultaService.inserirConsulta(consulta);
+    public Consulta cadastrarConsulta(@Valid @RequestBody ConsultaDto consultaDto) {
+        return consultaService.inserirConsulta(consultaDto);
     }
 
     @PutMapping("/{id}")
-    public Consulta atualizarConsulta(@PathVariable String id, @RequestBody Consulta consulta) {
-        return consultaService.atualizarConsulta(id, consulta);
+    public Consulta atualizarConsulta(@PathVariable String id, @RequestBody ConsultaDto consultaDto) {
+        return consultaService.atualizarConsulta(id, consultaDto);
     }
 
     @DeleteMapping("/{id}")

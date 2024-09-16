@@ -97,7 +97,7 @@ public class PacienteServiceTests {
         given(pacienteRepository.acharPorCpf(paciente.getCpf())).willReturn(Optional.of(paciente));
         var pacienteEncontrado = pacienteService.buscarPacientePorCpf(paciente.getCpf());
 
-        assertThat(pacienteEncontrado).isEqualTo(Optional.of(paciente));
+        assertThat(pacienteEncontrado).isEqualTo(paciente);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class PacienteServiceTests {
 
         var pacienteEncontrado = pacienteService.buscarPacientePorId("123");
 
-        assertThat(pacienteEncontrado).isEqualTo(Optional.of(paciente));
+        assertThat(pacienteEncontrado).isEqualTo(paciente);
     }
 
     @Test

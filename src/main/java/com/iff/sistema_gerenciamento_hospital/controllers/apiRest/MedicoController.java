@@ -1,5 +1,7 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
+import com.iff.sistema_gerenciamento_hospital.domain.dtos.MedicoDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("medicos")
+@RestController
+@RequestMapping("medicos")
 @RequiredArgsConstructor
 public class MedicoController {
 
@@ -31,8 +34,8 @@ public class MedicoController {
     }
 
     @PostMapping
-    public Medico cadastrar(@RequestBody Medico medico) {
-        return medicoService.inserirMedico(medico);
+    public Medico cadastrar(@Valid @RequestBody MedicoDto medicoDto) {
+        return medicoService.inserirMedico(medicoDto);
     }
 
     @PutMapping("/{id}")

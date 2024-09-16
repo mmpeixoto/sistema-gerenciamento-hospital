@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("pacientes")
+@RestController
+@RequestMapping("pacientes")
 @RequiredArgsConstructor
 public class PacienteController {
 

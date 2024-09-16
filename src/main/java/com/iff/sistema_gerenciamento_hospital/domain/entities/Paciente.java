@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +18,4 @@ public class Paciente extends Pessoa {
     private float altura;
     @Column(name = "tipoSanguineo", nullable = true, length = 3)
     private String tipoSanguineo;
-    @OneToMany(mappedBy = "paciente")
-    @JsonIgnoreProperties("paciente")
-    private List<Exame> exames;
 }

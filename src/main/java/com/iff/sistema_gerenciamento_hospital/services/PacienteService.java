@@ -7,11 +7,9 @@ import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundExceptio
 import com.iff.sistema_gerenciamento_hospital.repositories.EnderecoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.PacienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -17,7 +17,6 @@ public class Endereco {
     @UuidGenerator
     @EqualsAndHashCode.Include
     private String id;
-    @ColumnDefault(value = "null")
     @Column(name = "cep", nullable = false, length = 8)
     @NotBlank(message = "CEP é obrigatorio no endereço")
     private String cep;
@@ -36,6 +35,7 @@ public class Endereco {
     @Column(name = "estado", nullable = false, length = 2)
     @NotBlank(message = "Estado é obrigatorio no endereço")
     private String estado;
+    @ColumnDefault(value = "null")
     @Column(name = "complemento", nullable = true, length = 50)
     private String complemento;
 }

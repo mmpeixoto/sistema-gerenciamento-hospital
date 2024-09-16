@@ -12,10 +12,6 @@ import java.util.List;
 @Transactional
 public interface ConsultaRepository extends JpaRepository<Consulta, String> {
 
-    @Query("select c from Consulta c where c.paciente.id=?1")
-    List<Consulta> acharPorIdPaciente(String id);
-
-
-    @Query("select c from Consulta c where c.medico.id=?1")
-    List<Consulta> acharPorIdMedico(String id);
+    @Query("select c from Consulta c where c.triagem.paciente.id like %?1% and c.medico.id like %?2%")
+    List<Consulta> acharPorPacienteEMedico(String pacienteId, String medicoId);
 }

@@ -18,7 +18,7 @@ public class DepartamentoController {
 
     private final DepartamentoService service;
 
-    @GetMapping("")
+    @GetMapping
     public List<Departamento> listarDepartamentos() {
         return service.listarDepartamentos();
     }

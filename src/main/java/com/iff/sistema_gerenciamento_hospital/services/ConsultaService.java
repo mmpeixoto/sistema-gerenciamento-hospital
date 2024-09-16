@@ -8,6 +8,8 @@ import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundExceptio
 import com.iff.sistema_gerenciamento_hospital.repositories.ConsultaRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.MedicoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.PacienteRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ConsultaService {
 
-    @Autowired
-    private ConsultaRepository consultaRepository;
-
-    @Autowired
-    private PacienteService pacienteService;
-
-    @Autowired
-    private MedicoService medicoService;
-    @Autowired
-    private PacienteRepository pacienteRepository;
-    @Autowired
-    private MedicoRepository medicoRepository;
+    private final ConsultaRepository consultaRepository;
+    private final PacienteService pacienteService;
+    private final MedicoService medicoService;
+    private final PacienteRepository pacienteRepository;
+    private final MedicoRepository medicoRepository;
 
     public Consulta inserirConsulta(Consulta consulta) {
         Optional<Paciente> paciente = pacienteService.buscarPacientePorId(consulta.getPaciente().getId());

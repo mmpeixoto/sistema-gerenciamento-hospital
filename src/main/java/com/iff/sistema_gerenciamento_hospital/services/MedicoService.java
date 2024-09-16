@@ -6,6 +6,7 @@ import com.iff.sistema_gerenciamento_hospital.domain.exceptions.BadRequestExcept
 import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundException;
 import com.iff.sistema_gerenciamento_hospital.repositories.EnderecoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.MedicoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MedicoService {
-    @Autowired
-    private MedicoRepository medicoRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
+
+    private final MedicoRepository medicoRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public Medico inserirMedico(Medico medico) {
         verificarLicencaExistente(medico.getLicenca());
@@ -42,18 +43,12 @@ public class MedicoService {
         return medicoRepository.findAll();
     }
 
-    public Optional<Medico> buscarMedicoPorId(String id) {
-        if (medicoRepository.findById(id).isEmpty()) {
-            throw new NotFoundException("Erro: Não existe médico com esse ID!");
-        }
-        return medicoRepository.findById(id);
+    public Medico buscarMedicoPorId(String id) {
+        return medicoRepository.findById(id).orElseThrow(() -> new NotFoundException("Erro: Não existe médico com esse ID!"));
     }
 
-    public Optional<Medico> buscarMedicoPorLicenca(String licenca) {
-        if (medicoRepository.acharPorLicenca(licenca).isEmpty()) {
-            throw new NotFoundException("Erro: Nenhum médico foi cadastrado com esse número de licença");
-        }
-        return medicoRepository.acharPorLicenca(licenca);
+    public Medico buscarMedicoPorLicenca(String licenca) {
+        return medicoRepository.acharPorLicenca(licenca).orElseThrow(() -> new NotFoundException("Erro: Não existe médico com essa licença!"));
     }
 
     public Medico atualizarMedico(String id, Medico medico){

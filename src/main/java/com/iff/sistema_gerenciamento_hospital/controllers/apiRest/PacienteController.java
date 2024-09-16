@@ -2,17 +2,17 @@ package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("pacientes")
+@RestController("pacientes")
+@RequiredArgsConstructor
 public class PacienteController {
-    @Autowired
-    private PacienteService pacienteService;
+
+    private final PacienteService pacienteService;
 
     @GetMapping
     public List<Paciente> listar() {
@@ -25,18 +25,18 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> acharPacientePorId(@PathVariable String id) {
-        return pacienteService.buscarPacientePorId(id).map(paciente -> ResponseEntity.ok(paciente)).orElse(ResponseEntity.notFound().build());
+    public Paciente acharPacientePorId(@PathVariable String id) {
+        return pacienteService.buscarPacientePorId(id);
     }
 
     @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<Paciente> acharPacientePorCpf(@PathVariable String cpf) {
-        return pacienteService.buscarPacientePorCpf(cpf).map(paciente -> ResponseEntity.ok(paciente)).orElse(ResponseEntity.notFound().build());
+    public Paciente acharPacientePorCpf(@PathVariable String cpf) {
+        return pacienteService.buscarPacientePorCpf(cpf);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Paciente> atualizarPaciente(@PathVariable String id, @RequestBody Paciente paciente) {
-        return ResponseEntity.ok(pacienteService.atualizarPaciente(id, paciente));
+    public Paciente atualizarPaciente(@PathVariable String id, @RequestBody Paciente paciente) {
+        return pacienteService.atualizarPaciente(id, paciente);
     }
 
     @DeleteMapping("/{id}")

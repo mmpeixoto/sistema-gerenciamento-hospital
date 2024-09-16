@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.UuidGenerator;
@@ -18,13 +19,14 @@ public class Consulta {
     @UuidGenerator
     @EqualsAndHashCode.Include
     private String id;
+    @NotNull(message = "Data da consulta é obrigatoria")
     private Date dataConsulta;
     private String diagnostico;
     private String tratamento;
-    @ManyToOne
-    private Paciente paciente;
+    @NotNull(message = "Médico é obrigatorio para consulta")
     @ManyToOne
     private Medico medico;
+    @NotNull(message = "Triagem é obrigatoria para consulta")
     @OneToOne
     private Triagem triagem;
 }

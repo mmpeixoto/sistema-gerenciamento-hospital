@@ -6,6 +6,7 @@ import com.iff.sistema_gerenciamento_hospital.domain.exceptions.BadRequestExcept
 import com.iff.sistema_gerenciamento_hospital.domain.exceptions.NotFoundException;
 import com.iff.sistema_gerenciamento_hospital.repositories.EnderecoRepository;
 import com.iff.sistema_gerenciamento_hospital.repositories.PacienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PacienteService {
-    @Autowired
-    private PacienteRepository pacienteRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
+
+    private final PacienteRepository pacienteRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public Paciente inserirPaciente(Paciente paciente) {
         if (paciente.getCpf() == null) {
@@ -36,20 +37,12 @@ public class PacienteService {
         return pacienteRepository.findAll();
     }
 
-    public Optional<Paciente> buscarPacientePorId(String id) {
-        Optional<Paciente> pacienteEncontrado = pacienteRepository.findById(id);
-        if (pacienteEncontrado.isEmpty()) {
-            throw new NotFoundException("Paciente não encontrado!");
-        }
-        return pacienteEncontrado;
+    public Paciente buscarPacientePorId(String id) {
+        return pacienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
-    public Optional<Paciente> buscarPacientePorCpf(String cpf) {
-        Optional<Paciente> pacienteEncontrado = pacienteRepository.acharPorCpf(cpf);
-        if (pacienteEncontrado.isEmpty()) {
-            throw new NotFoundException("Paciente não encontrado!");
-        }
-        return pacienteEncontrado;
+    public Paciente buscarPacientePorCpf(String cpf) {
+        return pacienteRepository.acharPorCpf(cpf).orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
     public Paciente atualizarPaciente(String id, Paciente paciente) {

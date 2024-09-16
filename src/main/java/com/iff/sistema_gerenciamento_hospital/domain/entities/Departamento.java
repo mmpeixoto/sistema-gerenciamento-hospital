@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.UuidGenerator;
@@ -18,6 +19,7 @@ public class Departamento {
     @UuidGenerator
     @EqualsAndHashCode.Include
     private String id;
+    @NotBlank(message = "Localização é obrigatoria para o departamento")
     private String localizacao;
     @ManyToOne
     private Medico chefeDeDepartamento;

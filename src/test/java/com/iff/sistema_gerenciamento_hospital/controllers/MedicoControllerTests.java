@@ -45,7 +45,7 @@ public class MedicoControllerTests {
     }
 
     @Test
-    void deveListarMedicos() throws Exception {
+    void deveListarMedicosMedicos() throws Exception {
         Medico medico = new Medico();
         medico.setId("1");
         medico.setNome("Dr. João");
@@ -81,7 +81,7 @@ public class MedicoControllerTests {
     }
 
     @Test
-    void deveAcharMedicoPorLicenca() throws Exception {
+    void deveBuscarMedicoPorLicenca() throws Exception {
         Medico medico = new Medico();
         medico.setId("1");
         medico.setNome("Dr. João");

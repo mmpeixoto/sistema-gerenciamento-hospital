@@ -44,7 +44,7 @@ public class ConsultaControllerTests {
     }
 
     @Test
-    void deveListarConsultas() throws Exception {
+    void deveListarListarConsultas() throws Exception {
         Consulta consulta = new Consulta();
         consulta.setId("1");
 
@@ -56,7 +56,7 @@ public class ConsultaControllerTests {
     }
 
     @Test
-    void deveListarConsultasPorPaciente() throws Exception {
+    void deveListarListarListarConsultasPorPaciente() throws Exception {
         Consulta consulta = new Consulta();
         consulta.setId("1");
 
@@ -68,7 +68,7 @@ public class ConsultaControllerTests {
     }
 
     @Test
-    void deveListarConsultasPorMedico() throws Exception {
+    void deveListarListarConsultasPorMedico() throws Exception {
         Consulta consulta = new Consulta();
         consulta.setId("1");
 

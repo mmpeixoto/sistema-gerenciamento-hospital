@@ -1,21 +1,11 @@
-package com.iff.sistema_gerenciamento_hospital.domain.entities;
+package com.iff.sistema_gerenciamento_hospital.domain.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.UuidGenerator;
 
 @Data
-@Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Endereco {
-    @Id
-    @UuidGenerator
-    @EqualsAndHashCode.Include
-    private String id;
+public class EnderecoDto {
     @NotBlank(message = "CEP é obrigatorio no endereço")
     private String cep;
     @NotBlank(message = "Logradouro é obrigatorio no endereço")

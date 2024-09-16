@@ -43,4 +43,4 @@ jobs:
           gradle-${{ runner.os }}-${{ matrix.java-version }}
 
     - name: Run tests
-      run: ./gradlew test
+      run: gradle test

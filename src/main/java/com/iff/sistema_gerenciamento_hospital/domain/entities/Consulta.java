@@ -1,5 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.domain.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -20,8 +21,11 @@ public class Consulta {
     @EqualsAndHashCode.Include
     private String id;
     @NotNull(message = "Data da consulta é obrigatoria")
+    @Column(name="dataConsulta", nullable=false)
     private Date dataConsulta;
+    @Column(name="diagnostico", nullable=false, length = 512)
     private String diagnostico;
+    @Column(name="tratamento", nullable=true, length=512)
     private String tratamento;
     @NotNull(message = "Médico é obrigatorio para consulta")
     @ManyToOne

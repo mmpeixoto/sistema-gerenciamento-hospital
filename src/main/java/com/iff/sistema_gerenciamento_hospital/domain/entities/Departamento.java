@@ -1,5 +1,7 @@
 package com.iff.sistema_gerenciamento_hospital.domain.entities;
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +22,7 @@ public class Departamento {
     @EqualsAndHashCode.Include
     private String id;
     @NotBlank(message = "Localização é obrigatoria para o departamento")
+    @Column(name = "localizacao", nullable = false, length = 100)
     private String localizacao;
     @ManyToOne
     private Medico chefeDeDepartamento;

@@ -22,13 +22,16 @@ public class Pessoa {
     @EqualsAndHashCode.Include
     private String id;
     @NotBlank(message = "Nome é obrigatorio na pessoa")
+    @Column(name = "nome", nullable = false, length = 50, unique = true)
     private String nome;
     @NotBlank(message = "CPF é obrigatorio na pessoa")
-    @Column(unique = true)
+    @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
+    @Column(name = "telefone", nullable = true, length = 15)
     private String telefone;
     @NotNull(message = "Data de nascimento é obrigatorio na pessoa")
     @PastOrPresent(message = "A data de nascimento nao pode estar no futuro")
+    @Column(name = "dataNascimento", nullable = false)
     private Date dataNascimento;
     @ManyToOne
     private Endereco endereco;

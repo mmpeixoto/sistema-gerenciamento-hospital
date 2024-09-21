@@ -12,4 +12,10 @@ public class MapeadorExcecao {
     public ErrorBody handleNotFoundException(NotFoundException e) {
         return new ErrorBody(HttpStatus.NOT_FOUND, e.getMessage());
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorBody handlePreConditionFailedException(BadRequestException e) {
+        return new ErrorBody(HttpStatus.PRECONDITION_FAILED, e.getMessage());
+    }
 }

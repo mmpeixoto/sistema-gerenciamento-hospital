@@ -5,7 +5,7 @@ O Hospital Multimed deseja desenvolver um sistema para gerenciar seus pacientes,
 
 ## Requisitos
 Os requisitos de negócio se encontram em `docs/requisitos.md`. 
-O diagrama de classes se encontra em `docs/diagrama_classes.png`
+O diagrama de classes se encontra em `docs/diagrama_classes.jpg`
 
 ## Instalação
 

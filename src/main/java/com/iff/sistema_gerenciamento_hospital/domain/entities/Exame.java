@@ -25,9 +25,6 @@ public class Exame {
     private String resultado;
     private TiposDeExame tiposDeExame;
     @ManyToOne
-    private Paciente paciente;
-    @ManyToOne
-    private Medico medico;
-    @ManyToOne
     private Consulta consulta;
 }
+

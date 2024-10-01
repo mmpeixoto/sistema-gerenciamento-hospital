@@ -2,6 +2,7 @@ package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.ConsultaDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Consulta;
+import com.iff.sistema_gerenciamento_hospital.domain.mapper.ConsultaMapper;
 import com.iff.sistema_gerenciamento_hospital.services.ConsultaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,11 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("consultas")
@@ -23,17 +24,33 @@ public class ConsultaController {
 
     private final ConsultaService consultaService;
 
-    @Operation(summary = "Encontrar uma consulta por id")
+    private final ConsultaMapper consultaMapper;
+
+    @Operation(summary = "Listar consultas com filtro por paciente e medico")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retornado consultas",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Consulta.class))})})
     @GetMapping
-    public List<Consulta> listarConsultas(@Parameter(description = "Id do paciente para filtrar as consultas")
+    public CollectionModel<ConsultaDto> listarConsultas(@Parameter(description = "Id do paciente para filtrar as consultas")
                                           @RequestParam(defaultValue = "") String pacienteId,
-                                          @Parameter(description = "Id do médico para filtrar as consultas")
+                                                        @Parameter(description = "Id do médico para filtrar as consultas")
                                           @RequestParam(defaultValue = "") String medicoId) {
-        return consultaService.listarConsultas(pacienteId, medicoId);
+
+        return consultaMapper.toCollectionModel(consultaService.listarConsultas(pacienteId, medicoId));
+    }
+
+    @Operation(summary = "Achar consulta por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta encontrada",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Consulta.class))}),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada",
+                    content = @Content)})
+    @GetMapping("/{id}")
+    public Consulta getConsulta(@Parameter(description = "Id da consulta a ser encontrada")
+                                 @PathParam("id") String id) {
+        return consultaService.getConsulta(id);
     }
 
     @Operation(summary = "Cadastrar uma nova consulta")

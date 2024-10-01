@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,18 @@ public class TriagemController {
     @GetMapping
     public List<Triagem> listarTriagens() {
         return service.listarTriagens();
+    }
+
+    @Operation(summary = "Listar uma triagem")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna a triagem especificada",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Triagem.class))}),
+            @ApiResponse(responseCode = "404", description = "Triagem nao encontrada",
+                    content = @Content)})
+    @GetMapping("/{id}")
+    public Triagem getTriagem(@PathParam("id") String id) {
+        return service.getTriagem(id);
     }
 
     @Operation(summary = "Inserir uma nova triagem")

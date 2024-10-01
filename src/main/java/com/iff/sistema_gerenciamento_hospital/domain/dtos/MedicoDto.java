@@ -5,11 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
 @Data
-public class MedicoDto {
+public class MedicoDto extends RepresentationModel<MedicoDto> {
+    private String id;
     @NotBlank(message = "Nome é obrigatorio para o enfermeiro")
     private String nome;
     @NotBlank(message = "CPF é obrigatorio para enfermeiro")

@@ -27,6 +27,11 @@ public class ConsultaService {
         return consultaRepository.acharPorPacienteEMedico(pacienteId, medicoId);
     }
 
+    public Consulta getConsulta(String id) {
+        return consultaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Consulta não encontrada!"));
+    }
+
     public Consulta atualizarConsulta(String id, ConsultaDto consultaDto) {
         var consultaExistente = consultaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Consulta não encontrada!"));

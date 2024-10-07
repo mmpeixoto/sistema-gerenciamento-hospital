@@ -1,7 +1,10 @@
 package com.iff.sistema_gerenciamento_hospital.domain.mapper;
 
+import com.iff.sistema_gerenciamento_hospital.controllers.apiRest.DepartamentoController;
 import com.iff.sistema_gerenciamento_hospital.controllers.apiRest.MedicoController;
+import com.iff.sistema_gerenciamento_hospital.domain.dtos.DepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.MedicoDto;
+import com.iff.sistema_gerenciamento_hospital.domain.entities.Departamento;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -43,5 +46,16 @@ public class MedicoMapper extends RepresentationModelAssemblerSupport<Medico, Me
         models.add(linkTo(methodOn(MedicoController.class).listarMedicos()).withSelfRel());
 
         return models;
+    }
+
+    private DepartamentoDto toDepartamentoDto(Departamento departamento) {
+        var dto = new DepartamentoDto();
+        dto.setId(departamento.getId());
+        dto.setLocalizacao(departamento.getLocalizacao());
+        dto.add(linkTo(
+                methodOn(DepartamentoController.class)
+                        .getDepartamento(departamento.getId()))
+                .withSelfRel());
+        return dto;
     }
 }

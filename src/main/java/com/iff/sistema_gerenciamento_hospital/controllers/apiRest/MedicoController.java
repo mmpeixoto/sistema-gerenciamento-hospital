@@ -69,7 +69,7 @@ public class MedicoController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Medico.class))})})
     @PostMapping
-    public Medico cadastrar(
+    public Medico cadastrarMedico(
             @Parameter(description = "DTO do médico a ser criado")
             @Valid @RequestBody MedicoDto medicoDto) {
         return medicoService.inserirMedico(medicoDto);

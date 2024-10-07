@@ -30,7 +30,7 @@ public class PacienteController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))})})
     @GetMapping
-    public CollectionModel<PacienteDto> listar() {
+    public CollectionModel<PacienteDto> listarPacientes() {
         return pacienteMapper.toCollectionModel(pacienteService.listarPacientes());
     }
 
@@ -40,7 +40,7 @@ public class PacienteController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))})})
     @PostMapping
-    public Paciente cadastrar(
+    public Paciente cadastrarPaciente(
             @Parameter(description = "Dados do paciente a ser criado")
             @RequestBody Paciente paciente) {
         return pacienteService.inserirPaciente(paciente);

@@ -41,7 +41,7 @@ public class PacienteMapper extends RepresentationModelAssemblerSupport<Paciente
     public CollectionModel<PacienteDto> toCollectionModel(Iterable<? extends Paciente> entities) {
         CollectionModel<PacienteDto> models = super.toCollectionModel(entities);
 
-        models.add(linkTo(methodOn(PacienteController.class).listar()).withSelfRel());
+        models.add(linkTo(methodOn(PacienteController.class).listarPacientes()).withSelfRel());
 
         return models;
     }

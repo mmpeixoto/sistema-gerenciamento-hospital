@@ -47,6 +47,25 @@ public class EnfermeiroService {
         ).orElseGet(() -> enderecoRepository.save(endereco));
     }
 
+    public Enfermeiro atualizarEnfermeiro(String id, EnfermeiroDto enfermeiroDto) {
+        Enfermeiro enfermeiroExistente = enfermeiroRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado!"));
+
+        if (!enfermeiroExistente.getCpf().equals(enfermeiroDto.getCpf())) {
+            verificarCpfExistente(enfermeiroDto.getCpf());
+        }
+
+        return enfermeiroRepository.save(paraEnfermeiro(enfermeiroDto));
+    }
+
+    public void deletarEnfermeiro(String id) {
+        if (enfermeiroRepository.existsById(id)) {
+            enfermeiroRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Enfermeiro não encontrado!");
+        }
+    }
+
     private Enfermeiro paraEnfermeiro(EnfermeiroDto enfermeiroDto) {
         var departamento = departamentoRepository.findById(enfermeiroDto.getDepartamentoId())
                 .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
@@ -59,5 +78,10 @@ public class EnfermeiroService {
         enfermeiro.setDataNascimento(enfermeiroDto.getDataNascimento());
         enfermeiro.setNome(enfermeiroDto.getNome());
         return enfermeiro;
+    }
+    private void verificarCpfExistente(String cpf) {
+        if (enfermeiroRepository.acharPorCpf(cpf).isPresent()) {
+            throw new BadRequestException("Erro: CPF do Enfermeiro já cadastrado!");
+        }
     }
 }

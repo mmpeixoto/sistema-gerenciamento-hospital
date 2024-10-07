@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -54,9 +55,40 @@ public class EnfermeiroController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Enfermeiro.class))})})
     @PostMapping
-    public Enfermeiro cadastrarEnfermeiro(
+    public EnfermeiroDto cadastrarEnfermeiro(
             @Parameter(description = "DTO do enfermeiro a ser criado")
             @Valid @RequestBody EnfermeiroDto enfermeiroDto) {
-        return enfermeiroService.inserirEnfermeiro(enfermeiroDto);
+        return enfermeiroMapper.toModel(enfermeiroService.inserirEnfermeiro(enfermeiroDto));
     }
+
+    @Operation(summary = "Atualizar um enfermeiro existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o enfermeiro que foi atualizado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Enfermeiro.class))}),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado",
+                    content = @Content)})
+    @PutMapping("/{id}")
+    public EnfermeiroDto atualizarEnfermeiro(
+            @Parameter(description = "Id do enfermeiro a ser atualizado")
+            @PathVariable String id,
+            @Parameter(description = "Nova versão do enfermeiro")
+            @RequestBody EnfermeiroDto enfermeiroDto) {
+        return enfermeiroMapper.toModel(enfermeiroService.atualizarEnfermeiro(id, enfermeiroDto));
+    }
+
+    @Operation(summary = "Deletar um enfermeiro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "O enfermeiro foi deletado com sucesso",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado",
+                    content = @Content)})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarEnfermeiro(
+            @Parameter(description = "Id do enfermeiro a ser deletado")
+            @PathVariable String id) {
+        enfermeiroService.deletarEnfermeiro(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

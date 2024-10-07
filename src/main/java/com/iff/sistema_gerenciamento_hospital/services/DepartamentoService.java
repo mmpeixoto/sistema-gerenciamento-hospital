@@ -36,4 +36,9 @@ public class DepartamentoService {
         departamento = repository.save(departamento);
         return departamento;
     }
+
+    public Departamento getDepartamento(String departamentoId) {
+        return repository.findById(departamentoId)
+                .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
+    }
 }

@@ -19,4 +19,6 @@ public class TriagemDto extends RepresentationModel<TriagemDto> {
     private String pacienteId;
     @NotBlank(message = "Enfermeiro é obrigatorio na triagem")
     private String enfermeiroId;
+    private PacienteDto paciente;
+    private EnfermeiroDto enfermeiro;
 }

@@ -48,9 +48,9 @@ public class ConsultaController {
             @ApiResponse(responseCode = "404", description = "Consulta não encontrada",
                     content = @Content)})
     @GetMapping("/{id}")
-    public Consulta getConsulta(@Parameter(description = "Id da consulta a ser encontrada")
+    public ConsultaDto getConsulta(@Parameter(description = "Id da consulta a ser encontrada")
                                  @PathParam("id") String id) {
-        return consultaService.getConsulta(id);
+        return  consultaMapper.toModel(consultaService.getConsulta(id));
     }
 
     @Operation(summary = "Cadastrar uma nova consulta")
@@ -59,10 +59,10 @@ public class ConsultaController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Consulta.class))})})
     @PostMapping
-    public Consulta cadastrarConsulta(
+    public ConsultaDto cadastrarConsulta(
             @Parameter(description = "DTO da consulta a ser criada")
             @Valid @RequestBody ConsultaDto consultaDto) {
-        return consultaService.inserirConsulta(consultaDto);
+        return consultaMapper.toModel(consultaService.inserirConsulta(consultaDto));
     }
 
     @Operation(summary = "Atualizar uma consulta existente")
@@ -73,12 +73,12 @@ public class ConsultaController {
             @ApiResponse(responseCode = "404", description = "Consulta não encontrada",
                     content = @Content)})
     @PutMapping("/{id}")
-    public Consulta atualizarConsulta(
+    public ConsultaDto atualizarConsulta(
             @Parameter(description = "Id da consulta a ser atualizada")
             @PathVariable String id,
             @Parameter(description = "DTO da nova versão da consulta")
             @RequestBody ConsultaDto consultaDto) {
-        return consultaService.atualizarConsulta(id, consultaDto);
+        return consultaMapper.toModel(consultaService.atualizarConsulta(id, consultaDto));
     }
 
     @Operation(summary = "Deletar uma consulta")

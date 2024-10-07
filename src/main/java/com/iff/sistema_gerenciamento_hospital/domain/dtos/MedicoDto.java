@@ -27,4 +27,5 @@ public class MedicoDto extends RepresentationModel<MedicoDto> {
     private String especialidade;
     @NotBlank(message = "Licença é obrigatorio no medico")
     private String licenca;
+    private DepartamentoDto departamento;
 }

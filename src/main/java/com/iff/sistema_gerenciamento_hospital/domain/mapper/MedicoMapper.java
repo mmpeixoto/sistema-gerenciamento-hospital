@@ -36,6 +36,7 @@ public class MedicoMapper extends RepresentationModelAssemblerSupport<Medico, Me
         medicoDto.setDataNascimento(entity.getDataNascimento());
         medicoDto.setEspecialidade(entity.getEspecialidade());
         medicoDto.setLicenca(entity.getLicenca());
+        medicoDto.setDepartamento(toDepartamentoDto(entity.getDepartamento()));
         return medicoDto;
     }
 

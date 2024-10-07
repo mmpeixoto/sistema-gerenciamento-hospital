@@ -20,6 +20,7 @@ public class EnfermeiroService {
     private final EnfermeiroRepository repository;
     private final DepartamentoRepository departamentoRepository;
     private final EnderecoRepository enderecoRepository;
+    private final EnfermeiroRepository enfermeiroRepository;
 
     public List<Enfermeiro> listarEnfermeiros() {
         return repository.findAll();
@@ -27,6 +28,10 @@ public class EnfermeiroService {
 
     public Enfermeiro inserirEnfermeiro(EnfermeiroDto novoEnfermeiro) {
         return repository.save(paraEnfermeiro(novoEnfermeiro));
+    }
+
+    public Enfermeiro buscarEnfermeiroPorId(String id) {
+        return enfermeiroRepository.findById(id).orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado!"));
     }
 
     private Endereco verificarOuSalvarEndereco(Endereco endereco) {

@@ -23,6 +23,11 @@ public class TriagemService {
         return repository.findAll();
     }
 
+    public Triagem getTriagem(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Triagem não encontrada!"));
+    }
+
     public Triagem inserirTriagem(TriagemDto triagemDto) {
         return repository.save(paraTriagem(triagemDto));
     }

@@ -5,11 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
 @Data
-public class TriagemDto {
+public class TriagemDto extends RepresentationModel<TriagemDto> {
+    private String id;
     @NotNull(message = "Data é obrigatorio na triagem")
     @PastOrPresent(message = "A triagem nao pode ter uma data futura")
     private Date data;

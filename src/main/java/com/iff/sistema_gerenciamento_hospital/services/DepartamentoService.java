@@ -22,8 +22,8 @@ public class DepartamentoService {
         return repository.findAll();
     }
 
-    public Departamento inserirDepartamento(DepartamentoDto departamentoDto) {
-        return repository.save(DepartamentoDto.paraDepartamento(departamentoDto));
+    public Departamento inserirDepartamento(Departamento departamento) {
+        return repository.save(departamento);
     }
 
     public Departamento editarChefeDepartamento(String departamentoId, ChefeDepartamentoDto chefeDepartamentoDto) {
@@ -35,5 +35,10 @@ public class DepartamentoService {
         departamento.setChefeDeDepartamento(chefeDepartamento);
         departamento = repository.save(departamento);
         return departamento;
+    }
+
+    public Departamento getDepartamento(String departamentoId) {
+        return repository.findById(departamentoId)
+                .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
     }
 }

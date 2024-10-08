@@ -77,7 +77,7 @@ public class MedicoService {
     }
 
     private Medico paraMedico(MedicoDto medicoDto) {
-        var departamento = departamentoRepository.findById(medicoDto.getDepartamentoId())
+        var departamento = departamentoRepository.findById(medicoDto.getDepartamento().getId())
                 .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
         var medico = new Medico();
         medico.setDepartamento(departamento);

@@ -2,6 +2,7 @@ package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.TriagemDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Triagem;
+import com.iff.sistema_gerenciamento_hospital.domain.mapper.TriagemMapper;
 import com.iff.sistema_gerenciamento_hospital.services.TriagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,9 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("triagens")
@@ -22,6 +22,7 @@ import java.util.List;
 public class TriagemController {
 
     private final TriagemService service;
+    private final TriagemMapper mapper;
 
     @Operation(summary = "Listar todas as triagens")
     @ApiResponses(value = {
@@ -29,8 +30,8 @@ public class TriagemController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Triagem.class))})})
     @GetMapping
-    public List<Triagem> listarTriagens() {
-        return service.listarTriagens();
+    public CollectionModel<TriagemDto> listarTriagens() {
+        return mapper.toCollectionModel(service.listarTriagens());
     }
 
     @Operation(summary = "Listar uma triagem")
@@ -41,8 +42,8 @@ public class TriagemController {
             @ApiResponse(responseCode = "404", description = "Triagem nao encontrada",
                     content = @Content)})
     @GetMapping("/{id}")
-    public Triagem getTriagem(@PathParam("id") String id) {
-        return service.getTriagem(id);
+    public TriagemDto getTriagem(@PathParam("id") String id) {
+        return mapper.toModel(service.getTriagem(id));
     }
 
     @Operation(summary = "Inserir uma nova triagem")
@@ -51,9 +52,9 @@ public class TriagemController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Triagem.class))})})
     @PostMapping
-    public Triagem inserirTriagem(
+    public TriagemDto inserirTriagem(
             @Parameter(description = "DTO da triagem a ser criada")
             @Valid @RequestBody TriagemDto triagemDto) {
-        return service.inserirTriagem(triagemDto);
+        return mapper.toModel(service.inserirTriagem(triagemDto));
     }
 }

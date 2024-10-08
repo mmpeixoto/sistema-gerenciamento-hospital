@@ -51,9 +51,9 @@ public class ConsultaService {
     }
 
     private Consulta paraConsulta(ConsultaDto consultaDto) {
-        var medico = medicoRepository.findById(consultaDto.getMedicoId())
+        var medico = medicoRepository.findById(consultaDto.getMedico().getId())
                 .orElseThrow(() -> new NotFoundException("Médico nao encontrado"));
-        var triagem = triagemRepository.findById(consultaDto.getTriagemId())
+        var triagem = triagemRepository.findById(consultaDto.getTriagem().getId())
                 .orElseThrow(() -> new NotFoundException("Triagem nao encontrada"));
 
         var consulta = new Consulta();

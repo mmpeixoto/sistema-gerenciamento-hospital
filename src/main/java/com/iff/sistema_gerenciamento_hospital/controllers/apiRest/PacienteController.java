@@ -1,6 +1,8 @@
 package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
 
+import com.iff.sistema_gerenciamento_hospital.domain.dtos.PacienteDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
+import com.iff.sistema_gerenciamento_hospital.domain.mapper.PacienteMapper;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,10 +11,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("pacientes")
@@ -21,14 +22,16 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
 
+    private final PacienteMapper pacienteMapper;
+
     @Operation(summary = "Listar todos os pacientes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retorna a lista de pacientes",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))})})
     @GetMapping
-    public List<Paciente> listar() {
-        return pacienteService.listarPacientes();
+    public CollectionModel<PacienteDto> listarPacientes() {
+        return pacienteMapper.toCollectionModel(pacienteService.listarPacientes());
     }
 
     @Operation(summary = "Cadastrar um novo paciente")
@@ -37,10 +40,10 @@ public class PacienteController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))})})
     @PostMapping
-    public Paciente cadastrar(
+    public PacienteDto cadastrarPaciente(
             @Parameter(description = "Dados do paciente a ser criado")
             @RequestBody Paciente paciente) {
-        return pacienteService.inserirPaciente(paciente);
+        return pacienteMapper.toModel(pacienteService.inserirPaciente(paciente));
     }
 
     @Operation(summary = "Buscar paciente por id")
@@ -51,10 +54,10 @@ public class PacienteController {
             @ApiResponse(responseCode = "404", description = "Paciente não encontrado",
                     content = @Content)})
     @GetMapping("/{id}")
-    public Paciente acharPacientePorId(
+    public PacienteDto acharPacientePorId(
             @Parameter(description = "Id do paciente a ser buscado")
             @PathVariable String id) {
-        return pacienteService.buscarPacientePorId(id);
+        return pacienteMapper.toModel(pacienteService.buscarPacientePorId(id));
     }
 
     @Operation(summary = "Buscar paciente por CPF")
@@ -67,10 +70,10 @@ public class PacienteController {
             @ApiResponse(responseCode = "400", description = "Endereço invalido ou CPF já existente",
                     content = @Content)})
     @GetMapping("/cpf/{cpf}")
-    public Paciente acharPacientePorCpf(
+    public PacienteDto acharPacientePorCpf(
             @Parameter(description = "CPF do paciente a ser buscado")
             @PathVariable String cpf) {
-        return pacienteService.buscarPacientePorCpf(cpf);
+        return pacienteMapper.toModel(pacienteService.buscarPacientePorCpf(cpf));
     }
 
     @Operation(summary = "Atualizar um paciente existente")
@@ -81,12 +84,12 @@ public class PacienteController {
             @ApiResponse(responseCode = "404", description = "Paciente não encontrado",
                     content = @Content)})
     @PutMapping("/{id}")
-    public Paciente atualizarPaciente(
+    public PacienteDto atualizarPaciente(
             @Parameter(description = "Id do paciente a ser atualizado")
             @PathVariable String id,
             @Parameter(description = "Nova versão do paciente")
             @RequestBody Paciente paciente) {
-        return pacienteService.atualizarPaciente(id, paciente);
+        return pacienteMapper.toModel(pacienteService.atualizarPaciente(id, paciente));
     }
 
     @Operation(summary = "Deletar um paciente")

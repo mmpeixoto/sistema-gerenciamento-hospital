@@ -33,9 +33,9 @@ public class TriagemService {
     }
 
     private Triagem paraTriagem(TriagemDto triagemDto) {
-        var enfermeiro = enfermeiroRepository.findById(triagemDto.getEnfermeiroId())
+        var enfermeiro = enfermeiroRepository.findById(triagemDto.getEnfermeiro().getId())
                 .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));
-        var paciente = pacienteRepository.findById(triagemDto.getPacienteId())
+        var paciente = pacienteRepository.findById(triagemDto.getPaciente().getId())
                 .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
 
         var triagem = new Triagem();

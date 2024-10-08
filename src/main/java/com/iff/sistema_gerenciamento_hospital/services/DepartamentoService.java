@@ -22,8 +22,8 @@ public class DepartamentoService {
         return repository.findAll();
     }
 
-    public Departamento inserirDepartamento(DepartamentoDto departamentoDto) {
-        return repository.save(DepartamentoDto.paraDepartamento(departamentoDto));
+    public Departamento inserirDepartamento(Departamento departamento) {
+        return repository.save(departamento);
     }
 
     public Departamento editarChefeDepartamento(String departamentoId, ChefeDepartamentoDto chefeDepartamentoDto) {

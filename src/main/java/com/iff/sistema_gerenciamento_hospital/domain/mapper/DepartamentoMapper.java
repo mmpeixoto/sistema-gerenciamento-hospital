@@ -31,9 +31,14 @@ public class DepartamentoMapper extends RepresentationModelAssemblerSupport<Depa
                 .withSelfRel());
 
         departamentoDto.setId(entity.getId());
-        departamentoDto.setEnfermeiros(enfermeiroMapper.toCollectionModel(entity.getEnfermeiros()));
+        if (entity.getEnfermeiros() != null) {
+            departamentoDto.setEnfermeiros(enfermeiroMapper.toCollectionModel(entity.getEnfermeiros()));
+
+        }
         departamentoDto.setLocalizacao(entity.getLocalizacao());
-        departamentoDto.setMedicos(medicoMapper.toCollectionModel(entity.getMedicos()));
+        if(entity.getMedicos() != null){
+            departamentoDto.setMedicos(medicoMapper.toCollectionModel(entity.getMedicos()));
+        }
         return departamentoDto;
     }
 

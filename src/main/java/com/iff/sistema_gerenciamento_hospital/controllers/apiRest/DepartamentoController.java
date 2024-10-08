@@ -59,8 +59,8 @@ public class DepartamentoController {
     @PostMapping
     public DepartamentoDto inserirDepartamento(
             @Parameter(description = "DTO do departamento a ser criado")
-            @Valid @RequestBody DepartamentoDto departamentoDto) {
-        return mapper.toModel(service.inserirDepartamento(departamentoDto));
+            @Valid @RequestBody Departamento departamento) {
+        return mapper.toModel(service.inserirDepartamento(departamento));
     }
 
     @Operation(summary = "Editar o chefe de um departamento")

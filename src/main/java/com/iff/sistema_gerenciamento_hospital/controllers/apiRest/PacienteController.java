@@ -40,10 +40,10 @@ public class PacienteController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))})})
     @PostMapping
-    public Paciente cadastrarPaciente(
+    public PacienteDto cadastrarPaciente(
             @Parameter(description = "Dados do paciente a ser criado")
             @RequestBody Paciente paciente) {
-        return pacienteService.inserirPaciente(paciente);
+        return pacienteMapper.toModel(pacienteService.inserirPaciente(paciente));
     }
 
     @Operation(summary = "Buscar paciente por id")
@@ -84,12 +84,12 @@ public class PacienteController {
             @ApiResponse(responseCode = "404", description = "Paciente não encontrado",
                     content = @Content)})
     @PutMapping("/{id}")
-    public Paciente atualizarPaciente(
+    public PacienteDto atualizarPaciente(
             @Parameter(description = "Id do paciente a ser atualizado")
             @PathVariable String id,
             @Parameter(description = "Nova versão do paciente")
             @RequestBody Paciente paciente) {
-        return pacienteService.atualizarPaciente(id, paciente);
+        return pacienteMapper.toModel(pacienteService.atualizarPaciente(id, paciente));
     }
 
     @Operation(summary = "Deletar um paciente")

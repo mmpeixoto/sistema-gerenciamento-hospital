@@ -69,10 +69,10 @@ public class MedicoController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Medico.class))})})
     @PostMapping
-    public Medico cadastrarMedico(
+    public MedicoDto cadastrarMedico(
             @Parameter(description = "DTO do médico a ser criado")
             @Valid @RequestBody MedicoDto medicoDto) {
-        return medicoService.inserirMedico(medicoDto);
+        return medicoMapper.toModel(medicoService.inserirMedico(medicoDto));
     }
 
     @Operation(summary = "Atualizar um médico existente")
@@ -83,12 +83,12 @@ public class MedicoController {
             @ApiResponse(responseCode = "404", description = "Médico não encontrado",
                     content = @Content)})
     @PutMapping("/{id}")
-    public Medico atualizarMedico(
+    public MedicoDto atualizarMedico(
             @Parameter(description = "Id do médico a ser atualizado")
             @PathVariable String id,
             @Parameter(description = "Nova versão do médico")
             @RequestBody Medico medico) throws IllegalAccessException {
-        return medicoService.atualizarMedico(id, medico);
+        return medicoMapper.toModel(medicoService.atualizarMedico(id, medico));
     }
 
     @Operation(summary = "Deletar um médico")

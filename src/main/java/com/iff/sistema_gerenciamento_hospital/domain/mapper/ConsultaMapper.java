@@ -56,8 +56,6 @@ public class ConsultaMapper extends RepresentationModelAssemblerSupport<Consulta
     private TriagemDto toTriagemDto(Triagem entity) {
         var triagemDto = new TriagemDto();
         triagemDto.setId(entity.getId());
-        triagemDto.setPacienteId(entity.getPaciente().getId());
-        triagemDto.setEnfermeiroId(entity.getEnfermeiro().getId());
         triagemDto.add(linkTo(
                 methodOn(TriagemController.class)
                         .getTriagem(entity.getId()))

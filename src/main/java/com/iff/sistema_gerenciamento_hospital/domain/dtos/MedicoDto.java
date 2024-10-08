@@ -1,5 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Endereco;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,23 +10,23 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class MedicoDto extends RepresentationModel<MedicoDto> {
     private String id;
-    @NotBlank(message = "Nome é obrigatorio para o enfermeiro")
+    @NotBlank(message = "Nome é obrigatorio para o médico")
     private String nome;
-    @NotBlank(message = "CPF é obrigatorio para enfermeiro")
+    @NotBlank(message = "CPF é obrigatorio para médico")
     private String cpf;
     private String telefone;
     @NotNull(message = "Data de nascimento é obrigatorio na pessoa")
     @PastOrPresent(message = "A data de nascimento nao pode estar no futuro")
     private Date dataNascimento;
     private Endereco endereco;
-    @NotBlank(message = "Departamento é obrigatorio para enfermeiro")
-    private String departamentoId;
     @NotBlank(message = "Especialidade é obrigatorio no medico")
     private String especialidade;
     @NotBlank(message = "Licença é obrigatorio no medico")
     private String licenca;
+    @NotNull(message = "Departamento é obrigatorio no medico")
     private DepartamentoDto departamento;
 }

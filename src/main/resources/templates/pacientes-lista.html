@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Pacientes</title>
+</head>
+<body>
+
+<h1>Lista de Pacientes</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Peso</th>
+        <th>Altura</th>
+        <th>Tipo Sanguíneo</th>
+        <th>Data de Nascimento</th>
+        <th>CEP</th>
+        <th>Logradouro</th>
+        <th>Número</th>
+        <th>Bairro</th>
+        <th>Cidade</th>
+        <th>Estado</th>
+        <th>Complemento</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="paciente : ${pacientes}">
+        <td th:text="${paciente.nome}">Nome</td>
+        <td th:text="${paciente.cpf}">CPF</td>
+        <td th:text="${paciente.peso}">Peso</td>
+        <td th:text="${paciente.altura}">Altura</td>
+        <td th:text="${paciente.tipoSanguineo}">Tipo Sanguíneo</td>
+        <td th:text="${paciente.dataNascimento}">Data de Nascimento</td>
+        <td th:text="${paciente.endereco.cep}">CEP</td>
+        <td th:text="${paciente.endereco.logradouro}">Logradouro</td>
+        <td th:text="${paciente.endereco.numero}">Número</td>
+        <td th:text="${paciente.endereco.bairro}">Bairro</td>
+        <td th:text="${paciente.endereco.cidade}">Cidade</td>
+        <td th:text="${paciente.endereco.estado}">Estado</td>
+        <td th:text="${paciente.endereco.complemento}">Complemento</td>
+        <td>
+            <!-- Botão de Editar -->
+            <a th:href="@{/pacienteView/editar/{id}(id=${paciente.id})}">
+                <button>Editar</button>
+            </a>
+            <!-- Botão de Deletar -->
+            <form th:action="@{/pacienteView/{id}/deletar(id=${paciente.id})}" method="get" style="display:inline;">
+                <button type="submit" onclick="return confirm('Tem certeza que deseja deletar este paciente?')">Deletar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<button onclick="window.location.href='/pacienteView/form'">Adicionar Novo Paciente</button>
+
+</body>
+</html>

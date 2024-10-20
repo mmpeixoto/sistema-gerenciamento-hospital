@@ -1,5 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.services;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.ChefeDepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.DepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Departamento;
@@ -23,7 +24,7 @@ public class DepartamentoService {
     }
 
     public Departamento inserirDepartamento(Departamento departamento) {
-        if (!departamento.getChefeDeDepartamentoId().isBlank()) {
+        if (!StringUtil.isNullOrEmpty(departamento.getChefeDeDepartamentoId())) {
             var chefeDpto = medicoRepository.findById(departamento.getChefeDeDepartamentoId())
                     .orElseThrow(() -> new NotFoundException("Médico com esse Id nao encontrado"));
             departamento.setChefeDeDepartamento(chefeDpto);
@@ -57,7 +58,7 @@ public class DepartamentoService {
         var departamentoAtual = repository.findById(idDepartamento)
                 .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
 
-        if (!departamento.getChefeDeDepartamentoId().isBlank()) {
+        if (!StringUtil.isNullOrEmpty(departamento.getChefeDeDepartamentoId())) {
             var chefeDpto = medicoRepository.findById(departamento.getChefeDeDepartamentoId())
                     .orElseThrow(() -> new NotFoundException("Médico com esse Id nao encontrado"));
             departamento.setChefeDeDepartamento(chefeDpto);

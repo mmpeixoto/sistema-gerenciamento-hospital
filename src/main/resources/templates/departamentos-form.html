@@ -8,7 +8,10 @@
 <form th:action="${departamento.id == null} ? '/departamentoView/form' : '/departamentoView/editar/' + ${departamento.id}" th:object="${departamento}" method="post">
     <div>
         <label for="localizacao">Localização:</label>
-        <input type="text" id="localizacao" th:field="*{localizacao}" required />
+        <input type="text" id="localizacao" th:field="*{localizacao}" />
+        <p style="color: red"
+           th:if="${#fields.hasErrors('*{localizacao}')}"
+           th:errors="*{localizacao}" class="error-message">Localização inválida</p>
     </div>
     <div>
         <label for="chefeDeDepartamentoId">Chefe de Departamento:</label>

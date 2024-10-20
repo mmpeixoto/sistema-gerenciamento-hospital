@@ -4,9 +4,11 @@ import com.iff.sistema_gerenciamento_hospital.domain.entities.Triagem;
 import com.iff.sistema_gerenciamento_hospital.services.EnfermeiroService;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
 import com.iff.sistema_gerenciamento_hospital.services.TriagemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -34,7 +36,11 @@ public class TriagemViewController {
     }
 
     @PostMapping("/form")
-    public String cadastrarTriagem(Triagem triagem) {
+    public String cadastrarTriagem(@Valid @ModelAttribute Triagem triagem, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("triagem", triagem);
+            return "triagens-form";
+        }
         triagemService.inserirTriagem(triagem);
         return "redirect:/triagemView";
     }
@@ -55,7 +61,11 @@ public class TriagemViewController {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarTriagem(@PathVariable String id, @ModelAttribute Triagem triagem) {
+    public String editarTriagem(@PathVariable String id, @Valid @ModelAttribute Triagem triagem, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("triagem", triagem);
+            return "triagens-form";
+        }
         triagemService.atualizarTriagem(id, triagem);
         return "redirect:/triagemView";
     }

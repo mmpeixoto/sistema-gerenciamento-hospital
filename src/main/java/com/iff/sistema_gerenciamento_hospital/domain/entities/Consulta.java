@@ -20,17 +20,18 @@ public class Consulta {
     @Column(name="dataConsulta", nullable=false)
     private Date dataConsulta;
     @Column(name="diagnostico", nullable=false, length = 512)
+    @NotNull(message = "Diagnostico é obrigatorio para consulta")
     private String diagnostico;
     @Column(name="tratamento", nullable=true, length=512)
     private String tratamento;
-    @NotNull(message = "Médico é obrigatorio para consulta")
     @ManyToOne
     private Medico medico;
-    @NotNull(message = "Triagem é obrigatoria para consulta")
     @OneToOne
     private Triagem triagem;
     @Transient
+    @NotNull(message = "Triagem é obrigatoria para consulta")
     private String triagemId;
     @Transient
+    @NotNull(message = "Triagem é obrigatoria para consulta")
     private String medicoId;
 }

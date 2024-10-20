@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,5 +17,6 @@ public class Enfermeiro extends Pessoa {
     private Departamento departamento;
 
     @Transient
+    @NotNull(message = "O departamento é obrigatorio")
     private String departamentoId;
 }

@@ -3,9 +3,11 @@ package com.iff.sistema_gerenciamento_hospital.controllers.view;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Medico;
 import com.iff.sistema_gerenciamento_hospital.services.DepartamentoService;
 import com.iff.sistema_gerenciamento_hospital.services.MedicoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -30,7 +32,11 @@ public class MedicoViewController {
     }
 
     @PostMapping("/form")
-    public String cadastrarMedico(@ModelAttribute Medico medico) {
+    public String cadastrarMedico(@Valid @ModelAttribute Medico medico, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("medico", medico);
+            return "medicos-form";
+        }
         medicoService.inserirMedico(medico);
         return "redirect:/medicoView";
     }
@@ -50,7 +56,11 @@ public class MedicoViewController {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarMedico(@PathVariable String id, @ModelAttribute Medico medico) {
+    public String editarMedico(@PathVariable String id, @Valid @ModelAttribute Medico medico, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("medico", medico);
+            return "medicos-form";
+        }
         medicoService.atualizarMedico(id, medico);
         return "redirect:/medicoView";
     }

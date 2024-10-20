@@ -3,9 +3,11 @@ package com.iff.sistema_gerenciamento_hospital.controllers.view;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Enfermeiro;
 import com.iff.sistema_gerenciamento_hospital.services.DepartamentoService;
 import com.iff.sistema_gerenciamento_hospital.services.EnfermeiroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -31,7 +33,11 @@ public class EnfermeiroViewController {
     }
 
     @PostMapping("/form")
-    public String cadastrarEnfermeiro(Enfermeiro enfermeiro) {
+    public String cadastrarEnfermeiro(@Valid @ModelAttribute Enfermeiro enfermeiro, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("enfermeiro", enfermeiro);
+            return "enfermeiros-form";
+        }
         enfermeiroService.inserirEnfermeiro(enfermeiro);
         return "redirect:/enfermeiroView";
     }
@@ -52,7 +58,11 @@ public class EnfermeiroViewController {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarEnfermeiro(@PathVariable String id, @ModelAttribute Enfermeiro enfermeiro) {
+    public String editarEnfermeiro(@PathVariable String id, @Valid @ModelAttribute Enfermeiro enfermeiro, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("enfermeiro", enfermeiro);
+            return "enfermeiros-form";
+        }
         enfermeiroService.atualizarEnfermeiro(id, enfermeiro);
         return "redirect:/enfermeiroView";
     }

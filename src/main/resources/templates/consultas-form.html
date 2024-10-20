@@ -11,12 +11,19 @@
     <div>
         <label for="dataConsulta">Data da Consulta:</label>
         <input type="text" id="dataConsulta" th:field="*{dataConsulta}" required>
+        <!-- Validação de erro para Data da Consulta -->
+        <p style="color: red"
+           th:if="${#fields.hasErrors('dataConsulta')}"
+           th:errors="*{dataConsulta}" class="error-message">Data da consulta inválida</p>
     </div>
     <br/>
 
     <div>
         <label for="diagnostico">Diagnóstico:</label>
         <textarea id="diagnostico" th:field="*{diagnostico}" required></textarea>
+        <p style="color: red"
+           th:if="${#fields.hasErrors('diagnostico')}"
+           th:errors="*{diagnostico}" class="error-message">Diagnóstico é obrigatório</p>
     </div>
     <br/>
 
@@ -30,21 +37,27 @@
         <label for="medicoId">Médico:</label>
         <select id="medicoId" th:field="*{medicoId}" required>
             <option th:each="medico : ${medicos}"
-                    th:value="${medico}"
+                    th:value="${medico.id}"
                     th:text="${medico.nome}">
             </option>
         </select>
+        <p style="color: red"
+           th:if="${#fields.hasErrors('medicoId')}"
+           th:errors="*{medicoId}" class="error-message">Médico é obrigatório</p>
     </div>
     <br/>
 
     <div>
-        <label for="triagem">Triagem:</label>
-        <select id="triagem" th:field="*{triagem}" required>
+        <label for="triagemId">Triagem:</label>
+        <select id="triagemId" th:field="*{triagemId}" required>
             <option th:each="triagem : ${triagens}"
-                    th:value="${triagem}"
+                    th:value="${triagem.id}"
                     th:text="${triagem.paciente.nome} - ${triagem.data}">
             </option>
         </select>
+        <p style="color: red"
+           th:if="${#fields.hasErrors('triagemId')}"
+           th:errors="*{triagemId}" class="error-message">Triagem é obrigatória</p>
     </div>
     <br/>
 

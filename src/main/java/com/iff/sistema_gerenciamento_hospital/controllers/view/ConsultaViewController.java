@@ -4,9 +4,11 @@ import com.iff.sistema_gerenciamento_hospital.domain.entities.Consulta;
 import com.iff.sistema_gerenciamento_hospital.services.ConsultaService;
 import com.iff.sistema_gerenciamento_hospital.services.MedicoService;
 import com.iff.sistema_gerenciamento_hospital.services.TriagemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -34,7 +36,11 @@ public class ConsultaViewController {
     }
 
     @PostMapping("/form")
-    public String cadastrarConsulta(Consulta consulta) {
+    public String cadastrarConsulta(@Valid @ModelAttribute Consulta consulta, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("consulta", consulta);
+            return "consultas-form";
+        }
         consultaService.inserirConsulta(consulta);
         return "redirect:/consultaView";
     }
@@ -55,7 +61,11 @@ public class ConsultaViewController {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarConsulta(@PathVariable String id, @ModelAttribute Consulta consulta) {
+    public String editarConsulta(@PathVariable String id, @Valid @ModelAttribute Consulta consulta, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("consulta", consulta);
+            return "consultas-form";
+        }
         consultaService.atualizarConsulta(id, consulta);
         return "redirect:/consultaView";
     }

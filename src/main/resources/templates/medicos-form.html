@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Médico</title>
+</head>
+<body>
+<h1 th:text="${medico.id != null ? 'Editar Médico' : 'Cadastrar Médico'}"></h1>
+<form th:action="@{/medicoView/form}" th:object="${medico}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}" placeholder="Nome"/>
+    </div>
+    <div>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF"/>
+    </div>
+    <div>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" th:field="*{telefone}" placeholder="Telefone"/>
+    </div>
+    <div>
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="text" id="dataNascimento" th:field="*{dataNascimento}" required>
+    </div>
+    <div>
+        <label for="especialidade">Especialidade:</label>
+        <input type="text" id="especialidade" th:field="*{especialidade}" placeholder="Especialidade"/>
+    </div>
+    <div>
+        <label for="licenca">Licença:</label>
+        <input type="text" id="licenca" th:field="*{licenca}" placeholder="Licença"/>
+    </div>
+    <div>
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" th:field="*{departamentoId}">
+            <option th:each="dep : ${departamentos}" th:value="${dep.id}" th:text="${dep.localizacao}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" th:field="*{endereco.cep}" placeholder="CEP" required>
+    </div>
+    <div>
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" th:field="*{endereco.logradouro}" placeholder="Logradouro" required>
+    </div>
+    <div>
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" th:field="*{endereco.numero}" placeholder="Número" required>
+    </div>
+    <div>
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" th:field="*{endereco.bairro}" placeholder="Bairro" required>
+    </div>
+    <div>
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" th:field="*{endereco.cidade}" placeholder="Cidade" required>
+    </div>
+    <div>
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" th:field="*{endereco.estado}" placeholder="Estado" required>
+    </div>
+    <div>
+        <label for="complemento">Complemento:</label>
+        <input type="text" id="complemento" th:field="*{endereco.complemento}" placeholder="Complemento (Opcional)">
+    </div>
+
+    <button type="submit" th:text="${medico.id != null ? 'Atualizar' : 'Cadastrar'}"></button>
+</form>
+</body>
+</html>

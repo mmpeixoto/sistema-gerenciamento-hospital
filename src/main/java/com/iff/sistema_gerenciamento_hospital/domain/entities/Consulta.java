@@ -1,10 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,4 +29,8 @@ public class Consulta {
     @NotNull(message = "Triagem é obrigatoria para consulta")
     @OneToOne
     private Triagem triagem;
+    @Transient
+    private String triagemId;
+    @Transient
+    private String medicoId;
 }

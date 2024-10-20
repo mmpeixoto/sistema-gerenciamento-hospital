@@ -35,6 +35,17 @@ public class MedicoService {
         return medicoRepository.save(paraMedico(medicoDto));
     }
 
+    public Medico inserirMedico(Medico medico) {
+        var departamento = departamentoRepository.findById(medico.getDepartamento().getId())
+                .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
+
+        verificarLicencaExistente(medico.getLicenca());
+        verificarCpfExistente(medico.getCpf());
+        verificarOuSalvarEndereco(medico.getEndereco());
+        medico.setDepartamento(departamento);
+        return medicoRepository.save(medico);
+    }
+
     public List<Medico> listarMedicos() {
         return medicoRepository.findAll();
     }
@@ -50,7 +61,8 @@ public class MedicoService {
 
     public Medico atualizarMedico(String id, Medico medico){
         Medico medicoExistente = medicoRepository.findById(id).orElseThrow(() -> new NotFoundException("Médico não encontrado!"));
-
+        var departamento = departamentoRepository.findById(medico.getDepartamento().getId())
+                .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
         if (!medicoExistente.getCpf().equals(medico.getCpf())) {
             verificarCpfExistente(medico.getCpf());
         }
@@ -63,6 +75,7 @@ public class MedicoService {
 
         medico.setId(id);
         medico.setEndereco(endereco);
+        medico.setDepartamento(departamento);
 
         return medicoRepository.save(medico);
     }

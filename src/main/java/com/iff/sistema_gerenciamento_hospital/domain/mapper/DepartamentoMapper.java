@@ -12,13 +12,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class DepartamentoMapper extends RepresentationModelAssemblerSupport<Departamento, DepartamentoDto> {
-    private final MedicoMapper medicoMapper;
-    private final EnfermeiroMapper enfermeiroMapper;
 
-    public DepartamentoMapper(MedicoMapper medicoMapper, EnfermeiroMapper enfermeiroMapper) {
+    public DepartamentoMapper() {
         super(DepartamentoController.class, DepartamentoDto.class);
-        this.medicoMapper = medicoMapper;
-        this.enfermeiroMapper = enfermeiroMapper;
     }
 
     @Override
@@ -31,14 +27,7 @@ public class DepartamentoMapper extends RepresentationModelAssemblerSupport<Depa
                 .withSelfRel());
 
         departamentoDto.setId(entity.getId());
-        if (entity.getEnfermeiros() != null) {
-            departamentoDto.setEnfermeiros(enfermeiroMapper.toCollectionModel(entity.getEnfermeiros()));
-
-        }
         departamentoDto.setLocalizacao(entity.getLocalizacao());
-        if(entity.getMedicos() != null){
-            departamentoDto.setMedicos(medicoMapper.toCollectionModel(entity.getMedicos()));
-        }
         return departamentoDto;
     }
 

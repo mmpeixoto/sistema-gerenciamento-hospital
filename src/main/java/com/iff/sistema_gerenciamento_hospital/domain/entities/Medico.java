@@ -3,6 +3,7 @@ package com.iff.sistema_gerenciamento_hospital.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
@@ -23,4 +24,6 @@ public class Medico extends Pessoa{
     @NotNull(message = "Departamento é obrigatorio no medico")
     @JsonIgnoreProperties({"enfermeiros", "medicos"})
     private Departamento departamento;
+    @Transient
+    private String departamentoId;
 }

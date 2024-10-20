@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Triagem</title>
+</head>
+<body>
+<h1>Cadastro de Triagem</h1>
+<form th:action="@{/triagemView/form}" th:object="${triagem}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="data">Data:</label>
+    <input type="text" id="data" th:field="*{data}" required>
+    <br/>
+
+    <label for="pacienteId">Paciente:</label>
+    <select id="pacienteId" th:field="*{pacienteId}" required>
+        <option th:each="paciente : ${pacientes}"
+                th:value="${paciente.id}"
+                th:text="${paciente.nome}">
+        </option>
+    </select>
+    <br/>
+
+    <label for="enfermeiroId">Enfermeiro:</label>
+    <select id="enfermeiroId" th:field="*{enfermeiroId}" required>
+        <option th:each="enfermeiro : ${enfermeiros}"
+                th:value="${enfermeiro.id}"
+                th:text="${enfermeiro.nome}">
+        </option>
+    </select>
+    <br/>
+
+    <button type="submit">Salvar</button>
+</form>
+</body>
+</html>

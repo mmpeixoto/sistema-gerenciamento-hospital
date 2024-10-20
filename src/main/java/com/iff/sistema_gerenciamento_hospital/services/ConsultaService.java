@@ -23,6 +23,16 @@ public class ConsultaService {
         return consultaRepository.save(paraConsulta(consultaDto));
     }
 
+    public Consulta inserirConsulta(Consulta consulta) {
+        var medico = medicoRepository.findById(consulta.getMedico().getId())
+                .orElseThrow(() -> new NotFoundException("Médico nao encontrado"));
+        var triagem = triagemRepository.findById(consulta.getTriagem().getId())
+                .orElseThrow(() -> new NotFoundException("Triagem nao encontrada"));
+        consulta.setMedico(medico);
+        consulta.setTriagem(triagem);
+        return consultaRepository.save(consulta);
+    }
+
     public List<Consulta> listarConsultas(String pacienteId, String medicoId) {
         return consultaRepository.acharPorPacienteEMedico(pacienteId, medicoId);
     }
@@ -39,6 +49,20 @@ public class ConsultaService {
         var consultaAtualizada = paraConsulta(consultaDto);
         consultaAtualizada.setId(consultaExistente.getId());
         return consultaRepository.save(consultaAtualizada);
+    }
+
+    public Consulta atualizarConsulta(String id, Consulta consulta) {
+        var consultaExistente = consultaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Consulta não encontrada!"));
+        var medico = medicoRepository.findById(consulta.getMedico().getId())
+                .orElseThrow(() -> new NotFoundException("Médico nao encontrado"));
+        var triagem = triagemRepository.findById(consulta.getTriagem().getId())
+                .orElseThrow(() -> new NotFoundException("Triagem nao encontrada"));
+
+        consulta.setMedico(medico);
+        consulta.setTriagem(triagem);
+        consulta.setId(consultaExistente.getId());
+        return consultaRepository.save(consulta);
     }
 
     public void deletarConsulta(String id) {

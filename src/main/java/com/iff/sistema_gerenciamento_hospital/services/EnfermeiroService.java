@@ -30,6 +30,15 @@ public class EnfermeiroService {
         return repository.save(paraEnfermeiro(novoEnfermeiro));
     }
 
+    public Enfermeiro inserirEnfermeiro(Enfermeiro novoEnfermeiro) {
+        verificarOuSalvarEndereco(novoEnfermeiro.getEndereco());
+        var departamento = departamentoRepository.findById(novoEnfermeiro.getDepartamentoId())
+                .orElseThrow(() -> new NotFoundException("Departamento nao encontrado"));
+
+        novoEnfermeiro.setDepartamento(departamento);
+        return repository.save(novoEnfermeiro);
+    }
+
     public Enfermeiro buscarEnfermeiroPorId(String id) {
         return enfermeiroRepository.findById(id).orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado!"));
     }
@@ -56,6 +65,22 @@ public class EnfermeiroService {
         }
 
         return enfermeiroRepository.save(paraEnfermeiro(enfermeiroDto));
+    }
+
+    public Enfermeiro atualizarEnfermeiro(String id, Enfermeiro enfermeiro) {
+        Enfermeiro enfermeiroExistente = enfermeiroRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado!"));
+
+        if (!enfermeiroExistente.getCpf().equals(enfermeiro.getCpf())) {
+            verificarCpfExistente(enfermeiro.getCpf());
+        }
+
+        var departamento = departamentoRepository.findById(enfermeiro.getDepartamentoId())
+                .orElseThrow(() -> new NotFoundException("Departamento nao encontrado"));
+
+        enfermeiro.setDepartamento(departamento);
+        enfermeiro.setId(enfermeiroExistente.getId());
+        return enfermeiroRepository.save(enfermeiro);
     }
 
     public void deletarEnfermeiro(String id) {

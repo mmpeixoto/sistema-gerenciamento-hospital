@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Médicos</title>
+</head>
+<body>
+<h1>Lista de Médicos</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Data de Nascimento</th>
+        <th>Especialidade</th>
+        <th>Licença</th>
+        <th>Departamento</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="medico : ${medicos}">
+        <td th:text="${medico.nome}"></td>
+        <td th:text="${medico.cpf}"></td>
+        <td th:text="${medico.telefone}"></td>
+        <td th:text="${#dates.format(medico.dataNascimento, 'dd/MM/yyyy')}"></td>
+        <td th:text="${medico.especialidade}"></td>
+        <td th:text="${medico.licenca}"></td>
+        <td th:text="${medico.departamento.localizacao}"></td>
+        <td>
+            <a th:href="@{'/medicoView/editar/' + ${medico.id}}">Editar</a>
+            <a th:href="@{'/medicoView/' + ${medico.id} + '/deletar'}">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/medicoView/form">Cadastrar Novo Médico</a>
+</body>
+</html>

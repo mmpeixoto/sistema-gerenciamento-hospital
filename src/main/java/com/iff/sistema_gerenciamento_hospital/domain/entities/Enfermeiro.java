@@ -17,6 +17,5 @@ public class Enfermeiro extends Pessoa {
     private Departamento departamento;
 
     @Transient
-    @NotNull(message = "O departamento é obrigatorio")
     private String departamentoId;
 }

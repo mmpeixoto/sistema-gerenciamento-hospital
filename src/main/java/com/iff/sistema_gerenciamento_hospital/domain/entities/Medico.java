@@ -21,7 +21,6 @@ public class Medico extends Pessoa{
     @NotBlank(message = "Licença é obrigatorio no medico")
     private String licenca;
     @ManyToOne
-    @NotNull(message = "Departamento é obrigatorio no medico")
     @JsonIgnoreProperties({"enfermeiros", "medicos"})
     private Departamento departamento;
     @Transient

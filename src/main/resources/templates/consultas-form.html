@@ -52,7 +52,7 @@
         <select id="triagemId" th:field="*{triagemId}" required>
             <option th:each="triagem : ${triagens}"
                     th:value="${triagem.id}"
-                    th:text="${triagem.paciente.nome} - ${triagem.data}">
+                    th:text="${triagem.paciente.nome} + '-' + ${triagem.data}">
             </option>
         </select>
         <p style="color: red"

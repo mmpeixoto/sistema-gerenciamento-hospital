@@ -22,10 +22,8 @@ public class Triagem {
     @Column(name="data", nullable=false)
     private Date data;
     @ManyToOne
-    @NotNull(message = "Paciente é obrigatorio na triagem")
     private Paciente paciente;
     @ManyToOne
-    @NotNull(message = "Enfermeiro é obrigatorio na triagem")
     private Enfermeiro enfermeiro;
     @Transient
     private String enfermeiroId;

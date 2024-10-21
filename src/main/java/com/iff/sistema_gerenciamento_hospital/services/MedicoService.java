@@ -36,7 +36,7 @@ public class MedicoService {
     }
 
     public Medico inserirMedico(Medico medico) {
-        var departamento = departamentoRepository.findById(medico.getDepartamento().getId())
+        var departamento = departamentoRepository.findById(medico.getDepartamentoId())
                 .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
 
         verificarLicencaExistente(medico.getLicenca());
@@ -61,7 +61,7 @@ public class MedicoService {
 
     public Medico atualizarMedico(String id, Medico medico){
         Medico medicoExistente = medicoRepository.findById(id).orElseThrow(() -> new NotFoundException("Médico não encontrado!"));
-        var departamento = departamentoRepository.findById(medico.getDepartamento().getId())
+        var departamento = departamentoRepository.findById(medico.getDepartamentoId())
                 .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
         if (!medicoExistente.getCpf().equals(medico.getCpf())) {
             verificarCpfExistente(medico.getCpf());

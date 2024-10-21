@@ -31,10 +31,10 @@ public class EnfermeiroService {
     }
 
     public Enfermeiro inserirEnfermeiro(Enfermeiro novoEnfermeiro) {
-        verificarOuSalvarEndereco(novoEnfermeiro.getEndereco());
         var departamento = departamentoRepository.findById(novoEnfermeiro.getDepartamentoId())
                 .orElseThrow(() -> new NotFoundException("Departamento nao encontrado"));
-
+        var endereco = verificarOuSalvarEndereco(novoEnfermeiro.getEndereco());
+        novoEnfermeiro.setEndereco(endereco);
         novoEnfermeiro.setDepartamento(departamento);
         return repository.save(novoEnfermeiro);
     }

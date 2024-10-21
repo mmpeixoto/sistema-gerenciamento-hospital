@@ -24,9 +24,9 @@ public class ConsultaService {
     }
 
     public Consulta inserirConsulta(Consulta consulta) {
-        var medico = medicoRepository.findById(consulta.getMedico().getId())
+        var medico = medicoRepository.findById(consulta.getMedicoId())
                 .orElseThrow(() -> new NotFoundException("Médico nao encontrado"));
-        var triagem = triagemRepository.findById(consulta.getTriagem().getId())
+        var triagem = triagemRepository.findById(consulta.getTriagemId())
                 .orElseThrow(() -> new NotFoundException("Triagem nao encontrada"));
         consulta.setMedico(medico);
         consulta.setTriagem(triagem);
@@ -54,9 +54,9 @@ public class ConsultaService {
     public Consulta atualizarConsulta(String id, Consulta consulta) {
         var consultaExistente = consultaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Consulta não encontrada!"));
-        var medico = medicoRepository.findById(consulta.getMedico().getId())
+        var medico = medicoRepository.findById(consulta.getMedicoId())
                 .orElseThrow(() -> new NotFoundException("Médico nao encontrado"));
-        var triagem = triagemRepository.findById(consulta.getTriagem().getId())
+        var triagem = triagemRepository.findById(consulta.getTriagemId())
                 .orElseThrow(() -> new NotFoundException("Triagem nao encontrada"));
 
         consulta.setMedico(medico);

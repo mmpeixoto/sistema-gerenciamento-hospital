@@ -29,9 +29,7 @@ public class Consulta {
     @OneToOne
     private Triagem triagem;
     @Transient
-    @NotNull(message = "Triagem é obrigatoria para consulta")
     private String triagemId;
     @Transient
-    @NotNull(message = "Triagem é obrigatoria para consulta")
     private String medicoId;
 }

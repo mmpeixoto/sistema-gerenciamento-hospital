@@ -35,7 +35,7 @@ public class TriagemService {
     public Triagem inserirTriagem(Triagem triagem) {
         var enfermeiro = enfermeiroRepository.findById(triagem.getEnfermeiroId())
                 .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));
-        var paciente = pacienteRepository.findById(triagem.getPaciente().getId())
+        var paciente = pacienteRepository.findById(triagem.getPacienteId())
                 .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
 
         triagem.setEnfermeiro(enfermeiro);
@@ -48,7 +48,7 @@ public class TriagemService {
                 .orElseThrow(() -> new NotFoundException("Triagem não encontrada!"));
         var enfermeiro = enfermeiroRepository.findById(triagem.getEnfermeiroId())
                         .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));
-        var paciente = pacienteRepository.findById(triagem.getPaciente().getId())
+        var paciente = pacienteRepository.findById(triagem.getPacienteId())
                 .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
 
         triagem.setId(triagemExistente.getId());

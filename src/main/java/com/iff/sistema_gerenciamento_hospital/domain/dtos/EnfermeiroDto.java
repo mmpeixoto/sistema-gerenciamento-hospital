@@ -21,6 +21,6 @@ public class EnfermeiroDto extends RepresentationModel<EnfermeiroDto> {
     @PastOrPresent(message = "A data de nascimento nao pode estar no futuro")
     private Date dataNascimento;
     private Endereco endereco;
-    @NotBlank(message = "Departamento é obrigatorio para enfermeiro")
-    private String departamentoId;
+    @NotNull(message = "Departamento é obrigatorio no medico")
+    private DepartamentoDto departamento;
 }

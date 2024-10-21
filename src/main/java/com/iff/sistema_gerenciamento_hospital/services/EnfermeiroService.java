@@ -92,7 +92,7 @@ public class EnfermeiroService {
     }
 
     private Enfermeiro paraEnfermeiro(EnfermeiroDto enfermeiroDto) {
-        var departamento = departamentoRepository.findById(enfermeiroDto.getDepartamentoId())
+        var departamento = departamentoRepository.findById(enfermeiroDto.getDepartamento().getId())
                 .orElseThrow(() -> new NotFoundException("Departamento não encontrado"));
 
         var enfermeiro = new Enfermeiro();

@@ -22,6 +22,7 @@ public class EnfermeiroViewController {
     public String listarEnfermeiros(Model model) {
         var enfermeiros = enfermeiroService.listarEnfermeiros();
         model.addAttribute("enfermeiros", enfermeiros);
+        model.addAttribute("departamentos", departamentoService.listarDepartamentos());
         return "enfermeiros-lista";
     }
 
@@ -36,6 +37,7 @@ public class EnfermeiroViewController {
     public String cadastrarEnfermeiro(@Valid @ModelAttribute Enfermeiro enfermeiro, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("enfermeiro", enfermeiro);
+            model.addAttribute("departamentos", departamentoService.listarDepartamentos());
             return "enfermeiros-form";
         }
         enfermeiroService.inserirEnfermeiro(enfermeiro);
@@ -51,9 +53,8 @@ public class EnfermeiroViewController {
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEdicao(@PathVariable String id, Model model) {
         Enfermeiro enfermeiro = enfermeiroService.buscarEnfermeiroPorId(id);
-        model.addAttribute("enfermeiro", new Enfermeiro());
-        model.addAttribute("departamentos", departamentoService.listarDepartamentos());
         model.addAttribute("enfermeiro", enfermeiro);
+        model.addAttribute("departamentos", departamentoService.listarDepartamentos());
         return "enfermeiros-form";
     }
 
@@ -61,6 +62,7 @@ public class EnfermeiroViewController {
     public String editarEnfermeiro(@PathVariable String id, @Valid @ModelAttribute Enfermeiro enfermeiro, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("enfermeiro", enfermeiro);
+            model.addAttribute("departamentos", departamentoService.listarDepartamentos());
             return "enfermeiros-form";
         }
         enfermeiroService.atualizarEnfermeiro(id, enfermeiro);

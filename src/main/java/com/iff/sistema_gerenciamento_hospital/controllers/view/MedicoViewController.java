@@ -21,6 +21,7 @@ public class MedicoViewController {
     @GetMapping
     public String listarMedicos(Model model) {
         model.addAttribute("medicos", medicoService.listarMedicos());
+        model.addAttribute("departamentos", departamentoService.listarDepartamentos());
         return "medicos-lista";
     }
 
@@ -35,6 +36,7 @@ public class MedicoViewController {
     public String cadastrarMedico(@Valid @ModelAttribute Medico medico, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("medico", medico);
+            model.addAttribute("departamentos", departamentoService.listarDepartamentos());
             return "medicos-form";
         }
         medicoService.inserirMedico(medico);
@@ -59,6 +61,7 @@ public class MedicoViewController {
     public String editarMedico(@PathVariable String id, @Valid @ModelAttribute Medico medico, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("medico", medico);
+            model.addAttribute("departamentos", departamentoService.listarDepartamentos());
             return "medicos-form";
         }
         medicoService.atualizarMedico(id, medico);

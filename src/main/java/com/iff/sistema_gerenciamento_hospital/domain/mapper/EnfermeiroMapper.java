@@ -1,7 +1,10 @@
 package com.iff.sistema_gerenciamento_hospital.domain.mapper;
 
+import com.iff.sistema_gerenciamento_hospital.controllers.apiRest.DepartamentoController;
 import com.iff.sistema_gerenciamento_hospital.controllers.apiRest.EnfermeiroController;
+import com.iff.sistema_gerenciamento_hospital.domain.dtos.DepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.EnfermeiroDto;
+import com.iff.sistema_gerenciamento_hospital.domain.entities.Departamento;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Enfermeiro;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -31,7 +34,7 @@ public class EnfermeiroMapper extends RepresentationModelAssemblerSupport<Enferm
         enfermeiroDto.setTelefone(entity.getTelefone());
         enfermeiroDto.setDataNascimento(entity.getDataNascimento());
         enfermeiroDto.setEndereco(entity.getEndereco());
-        enfermeiroDto.setDepartamentoId(entity.getDepartamento().getId());
+        enfermeiroDto.setDepartamento(toDepartamentoDto(entity.getDepartamento()));
         return enfermeiroDto;
     }
 
@@ -42,5 +45,16 @@ public class EnfermeiroMapper extends RepresentationModelAssemblerSupport<Enferm
         models.add(linkTo(methodOn(EnfermeiroController.class).listarEnfermeiros()).withSelfRel());
 
         return models;
+    }
+
+    private DepartamentoDto toDepartamentoDto(Departamento departamento) {
+        var dto = new DepartamentoDto();
+        dto.setId(departamento.getId());
+        dto.setLocalizacao(departamento.getLocalizacao());
+        dto.add(linkTo(
+                methodOn(DepartamentoController.class)
+                        .getDepartamento(departamento.getId()))
+                .withSelfRel());
+        return dto;
     }
 }

@@ -12,11 +12,20 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Enfermeiro extends Pessoa {
+
     @ManyToOne
+    @NotNull(message = "O departamento é obrigatorio")
     @JsonIgnoreProperties({"enfermeiros", "medicos"})
     private Departamento departamento;
 
     @Transient
-    @NotNull(message = "O departamento é obrigatorio")
     private String departamentoId;
+
+    public void setDepartamentoId(String departamentoId) {
+        this.departamentoId = departamentoId;
+        if (departamentoId != null) {
+            this.departamento = new Departamento();
+            this.departamento.setId(departamentoId);
+        }
+    }
 }

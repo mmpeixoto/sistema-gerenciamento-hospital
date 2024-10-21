@@ -26,4 +26,12 @@ public class Medico extends Pessoa{
     private Departamento departamento;
     @Transient
     private String departamentoId;
+
+    public void setDepartamentoId(String departamentoId) {
+        this.departamentoId = departamentoId;
+        if (departamentoId != null) {
+            this.departamento = new Departamento();
+            this.departamento.setId(departamentoId);
+        }
+    }
 }

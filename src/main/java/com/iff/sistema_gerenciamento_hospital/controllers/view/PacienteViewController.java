@@ -41,7 +41,7 @@ public class PacienteViewController {
     public String cadastrarPaciente(@Valid @ModelAttribute Paciente paciente, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("paciente", paciente);
-            return "medicos-form";
+            return "pacientes-form";
         }
         pacienteService.inserirPaciente(paciente);
         return "redirect:/pacienteView";
@@ -64,7 +64,7 @@ public class PacienteViewController {
     public String editarPaciente(@PathVariable String id, @Valid @ModelAttribute Paciente paciente, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("paciente", paciente);
-            return "medicos-form";
+            return "pacientes-form";
         }
         pacienteService.atualizarPaciente(id, paciente);
         return "redirect:/pacienteView";

@@ -4,8 +4,8 @@
     <title>Cadastro de Departamento</title>
 </head>
 <body>
-<h1 th:text="${departamento.id == null} ? 'Cadastrar Departamento' : 'Editar Departamento'"></h1>
-<form th:action="${departamento.id == null} ? '/departamentoView/form' : '/departamentoView/editar/' + ${departamento.id}" th:object="${departamento}" method="post">
+<h1 th:text="${departamento.id != null} ? 'Editar Departamento' : 'Cadastrar Departamento'"></h1>
+<form th:action="${departamento.id != null} ? '/departamentoView/editar/' : '/departamentoView/form' + ${departamento.id}" th:object="${departamento}" method="post">
     <div>
         <label for="localizacao">Localização:</label>
         <input type="text" id="localizacao" th:field="*{localizacao}" />

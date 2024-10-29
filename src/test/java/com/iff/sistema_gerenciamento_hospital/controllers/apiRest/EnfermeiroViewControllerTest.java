@@ -73,7 +73,7 @@ public class EnfermeiroViewControllerTest {
     @Test
     void deletarEnfermeiro_deveRedirecionarParaListagem() throws Exception {
         var enfermeiro = criarEnfermeiro();
-        when(enfermeiroService.listarEnfermeiros()).thenReturn(List.of(enfermeiro));
+        when(enfermeiroService.buscarEnfermeiroPorId(enfermeiro.getId())).thenReturn(enfermeiro);
 
         mockMvc.perform(get("/enfermeiroView/"+enfermeiro.getId()+"/deletar"))
                 .andExpect(status().isFound())

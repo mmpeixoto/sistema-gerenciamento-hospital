@@ -1,4 +1,4 @@
-package com.iff.sistema_gerenciamento_hospital.controllers.apiRest;
+package com.iff.sistema_gerenciamento_hospital.controllers.view;
 
 import com.iff.sistema_gerenciamento_hospital.controllers.view.MedicoViewController;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Departamento;

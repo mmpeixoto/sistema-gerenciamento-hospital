@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Consultas</title>
+</head>
+<body>
+<h1>Lista de Consultas</h1>
+<a href="/consultaView/form">Cadastrar Nova Consulta</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Diagnóstico</th>
+        <th>Tratamento</th>
+        <th>Médico</th>
+        <th>Triagem</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="consulta : ${consultas}">
+        <td th:text="${consulta.dataConsulta}"></td>
+        <td th:text="${consulta.diagnostico}"></td>
+        <td th:text="${consulta.tratamento}"></td>
+        <td th:text="${consulta.medico.nome}"></td>
+        <td th:text="${consulta.triagem.paciente.nome}"></td>
+        <td>
+            <a th:href="@{/consultaView/editar/{id}(id=${consulta.id})}">Editar</a>
+            <a th:href="@{/consultaView/{id}/deletar(id=${consulta.id})}">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

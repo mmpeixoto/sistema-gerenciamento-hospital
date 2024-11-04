@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Departamento</title>
+</head>
+<body>
+<h1 th:text="${departamento.id == null} ? 'Cadastrar Departamento' : 'Editar Departamento'"></h1>
+<form th:action="${departamento.id == null} ? '/departamentoView/form' : '/departamentoView/editar/' + ${departamento.id}" th:object="${departamento}" method="post">
+    <div>
+        <label for="localizacao">Localização:</label>
+        <input type="text" id="localizacao" th:field="*{localizacao}" />
+        <p style="color: red"
+           th:if="${#fields.hasErrors('*{localizacao}')}"
+           th:errors="*{localizacao}" class="error-message">Localização inválida</p>
+    </div>
+    <div>
+        <label for="chefeDeDepartamentoId">Chefe de Departamento:</label>
+        <select id="chefeDeDepartamentoId" th:field="*{chefeDeDepartamentoId}">
+            <option th:each="medico : ${medicos}"
+                    th:value="${medico.id}"
+                    th:text="${medico.nome}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Salvar</button>
+    </div>
+</form>
+<a href="/departamentoView">Voltar</a>
+</body>
+</html>

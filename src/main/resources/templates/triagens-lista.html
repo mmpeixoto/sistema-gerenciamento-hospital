@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Triagens</title>
+</head>
+<body>
+<h1>Lista de Triagens</h1>
+<a href="/triagemView/form">Cadastrar Nova Triagem</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Paciente</th>
+        <th>Enfermeiro</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="triagem : ${triagens}">
+        <td th:text="${triagem.data}"></td>
+        <td th:text="${triagem.paciente.nome}"></td>
+        <td th:text="${triagem.enfermeiro.nome}"></td>
+        <td>
+            <a th:href="@{/triagemView/editar/{id}(id=${triagem.id})}">Editar</a>
+            <a th:href="@{/triagemView/{id}/deletar(id=${triagem.id})}">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

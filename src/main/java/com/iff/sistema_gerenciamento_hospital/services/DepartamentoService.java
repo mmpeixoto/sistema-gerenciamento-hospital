@@ -1,5 +1,6 @@
 package com.iff.sistema_gerenciamento_hospital.services;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.ChefeDepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.dtos.DepartamentoDto;
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Departamento;
@@ -23,6 +24,11 @@ public class DepartamentoService {
     }
 
     public Departamento inserirDepartamento(Departamento departamento) {
+        if (!StringUtil.isNullOrEmpty(departamento.getChefeDeDepartamentoId())) {
+            var chefeDpto = medicoRepository.findById(departamento.getChefeDeDepartamentoId())
+                    .orElseThrow(() -> new NotFoundException("Médico com esse Id nao encontrado"));
+            departamento.setChefeDeDepartamento(chefeDpto);
+        }
         return repository.save(departamento);
     }
 
@@ -40,5 +46,25 @@ public class DepartamentoService {
     public Departamento getDepartamento(String departamentoId) {
         return repository.findById(departamentoId)
                 .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
+    }
+
+    public void deletarDepartamento(String departamentoId) {
+        var departamento = repository.findById(departamentoId)
+                .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
+        repository.delete(departamento);
+    }
+
+    public Departamento editarDepartamento(String idDepartamento, Departamento departamento) {
+        var departamentoAtual = repository.findById(idDepartamento)
+                .orElseThrow(() -> new NotFoundException("Departamento com esse Id nao encontrado"));
+
+        if (!StringUtil.isNullOrEmpty(departamento.getChefeDeDepartamentoId())) {
+            var chefeDpto = medicoRepository.findById(departamento.getChefeDeDepartamentoId())
+                    .orElseThrow(() -> new NotFoundException("Médico com esse Id nao encontrado"));
+            departamento.setChefeDeDepartamento(chefeDpto);
+        }
+
+        departamento.setId(departamentoAtual.getId());
+        return repository.save(departamento);
     }
 }

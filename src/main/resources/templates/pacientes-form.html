@@ -5,64 +5,87 @@
 </head>
 <body>
 
-<h1>Cadastrar Novo Paciente</h1>
+<h1 th:text="${paciente.id != null ? 'Editar Paciente' : 'Cadastrar Novo Paciente'}"></h1>
 
 <form action="#" th:action="@{/pacienteView/form}" th:object="${paciente}" method="post">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" th:field="*{nome}" placeholder="Nome do Paciente" required>
-    <br>
+    <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}" placeholder="Nome do Paciente" required>
+        <p style="color: red" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome inválido</p>
+    </div>
 
-    <label for="cpf">CPF:</label>
-    <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF do Paciente" required>
-    <br>
+    <div>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF do Paciente" required>
+        <p style="color: red" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}">CPF inválido</p>
+    </div>
 
-    <label for="dataNascimento">Data de Nascimento:</label>
-    <input type="text" id="dataNascimento" th:field="*{dataNascimento}" required>
-    <br>
+    <div>
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="text" id="dataNascimento" th:field="*{dataNascimento}" required>
+        <p style="color: red" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">Data de nascimento inválida</p>
+    </div>
 
-    <label for="peso">Peso (kg):</label>
-    <input type="number" id="peso" th:field="*{peso}" step="0.01" placeholder="Peso em kg" required>
-    <br>
+    <div>
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" th:field="*{peso}" step="0.01" placeholder="Peso em kg" required>
+        <p style="color: red" th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}">Peso inválido</p>
+    </div>
 
+    <div>
+        <label for="altura">Altura (m):</label>
+        <input type="number" id="altura" th:field="*{altura}" step="0.01" placeholder="Altura em metros" required>
+        <p style="color: red" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}">Altura inválida</p>
+    </div>
 
-    <label for="altura">Altura (m):</label>
-    <input type="number" id="altura" th:field="*{altura}" step="0.01" placeholder="Altura em metros" required>
-    <br>
+    <div>
+        <label for="tipoSanguineo">Tipo Sanguíneo:</label>
+        <input type="text" id="tipoSanguineo" th:field="*{tipoSanguineo}" placeholder="Tipo Sanguíneo" required>
+        <p style="color: red" th:if="${#fields.hasErrors('tipoSanguineo')}" th:errors="*{tipoSanguineo}">Tipo sanguíneo inválido</p>
+    </div>
 
-    <label for="tipoSanguineo">Tipo Sanguíneo:</label>
-    <input type="text" id="tipoSanguineo" th:field="*{tipoSanguineo}" placeholder="Tipo Sanguíneo" required>
-    <br>
+    <div>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" th:field="*{endereco.cep}" placeholder="CEP" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.cep')}" th:errors="*{endereco.cep}">CEP inválido</p>
+    </div>
 
+    <div>
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" th:field="*{endereco.logradouro}" placeholder="Logradouro" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.logradouro')}" th:errors="*{endereco.logradouro}">Logradouro inválido</p>
+    </div>
 
-    <label for="cep">CEP:</label>
-    <input type="text" id="cep" th:field="*{endereco.cep}" placeholder="CEP" required>
-    <br>
+    <div>
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" th:field="*{endereco.numero}" placeholder="Número" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.numero')}" th:errors="*{endereco.numero}">Número inválido</p>
+    </div>
 
-    <label for="logradouro">Logradouro:</label>
-    <input type="text" id="logradouro" th:field="*{endereco.logradouro}" placeholder="Logradouro" required>
-    <br>
+    <div>
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" th:field="*{endereco.bairro}" placeholder="Bairro" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.bairro')}" th:errors="*{endereco.bairro}">Bairro inválido</p>
+    </div>
 
-    <label for="numero">Número:</label>
-    <input type="text" id="numero" th:field="*{endereco.numero}" placeholder="Número" required>
-    <br>
+    <div>
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" th:field="*{endereco.cidade}" placeholder="Cidade" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.cidade')}" th:errors="*{endereco.cidade}">Cidade inválida</p>
+    </div>
 
-    <label for="bairro">Bairro:</label>
-    <input type="text" id="bairro" th:field="*{endereco.bairro}" placeholder="Bairro" required>
-    <br>
+    <div>
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" th:field="*{endereco.estado}" placeholder="Estado" required>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.estado')}" th:errors="*{endereco.estado}">Estado inválido</p>
+    </div>
 
-    <label for="cidade">Cidade:</label>
-    <input type="text" id="cidade" th:field="*{endereco.cidade}" placeholder="Cidade" required>
-    <br>
+    <div>
+        <label for="complemento">Complemento:</label>
+        <input type="text" id="complemento" th:field="*{endereco.complemento}" placeholder="Complemento (Opcional)">
+    </div>
 
-    <label for="estado">Estado:</label>
-    <input type="text" id="estado" th:field="*{endereco.estado}" placeholder="Estado" required>
-    <br>
-
-    <label for="complemento">Complemento:</label>
-    <input type="text" id="complemento" th:field="*{endereco.complemento}" placeholder="Complemento (Opcional)">
-    <br>
-
-    <button type="submit">Salvar Paciente</button>
+    <button type="submit" th:text="${paciente.id != null ? 'Atualizar' : 'Salvar Paciente'}"></button>
 </form>
 
 </body>

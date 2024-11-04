@@ -2,9 +2,11 @@ package com.iff.sistema_gerenciamento_hospital.controllers.view;
 
 import com.iff.sistema_gerenciamento_hospital.domain.entities.Paciente;
 import com.iff.sistema_gerenciamento_hospital.services.PacienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +38,11 @@ public class PacienteViewController {
     }
 
     @PostMapping("/form")
-    public String cadastrarPaciente(Paciente paciente) {
+    public String cadastrarPaciente(@Valid @ModelAttribute Paciente paciente, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("paciente", paciente);
+            return "medicos-form";
+        }
         pacienteService.inserirPaciente(paciente);
         return "redirect:/pacienteView";
     }
@@ -51,11 +57,15 @@ public class PacienteViewController {
     public String mostrarFormularioEdicao(@PathVariable String id, Model model) {
         Paciente paciente = pacienteService.buscarPacientePorId(id);
         model.addAttribute("paciente", paciente);
-        return "paciente-form";  // Reaproveitando o formulário para edição
+        return "pacientes-form";  // Reaproveitando o formulário para edição
     }
 
     @PostMapping("/editar/{id}")
-    public String editarPaciente(@PathVariable String id, @ModelAttribute Paciente paciente) {
+    public String editarPaciente(@PathVariable String id, @Valid @ModelAttribute Paciente paciente, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("paciente", paciente);
+            return "medicos-form";
+        }
         pacienteService.atualizarPaciente(id, paciente);
         return "redirect:/pacienteView";
     }

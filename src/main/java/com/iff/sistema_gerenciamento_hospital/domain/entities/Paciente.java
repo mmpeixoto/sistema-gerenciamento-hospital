@@ -1,7 +1,5 @@
 package com.iff.sistema_gerenciamento_hospital.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Data;

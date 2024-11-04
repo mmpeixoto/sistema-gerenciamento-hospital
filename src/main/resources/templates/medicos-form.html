@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Médico</title>
+</head>
+<body>
+<h1 th:text="${medico.id != null ? 'Editar Médico' : 'Cadastrar Médico'}"></h1>
+<form th:action="@{/medicoView/form}" th:object="${medico}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}" placeholder="Nome" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome inválido</p>
+    </div>
+
+    <div>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}">CPF inválido</p>
+    </div>
+
+    <div>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" th:field="*{telefone}" placeholder="Telefone"/>
+        <p style="color: red" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">Telefone inválido</p>
+    </div>
+
+    <div>
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="text" id="dataNascimento" th:field="*{dataNascimento}" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">Data de nascimento inválida</p>
+    </div>
+
+    <div>
+        <label for="especialidade">Especialidade:</label>
+        <input type="text" id="especialidade" th:field="*{especialidade}" placeholder="Especialidade" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('especialidade')}" th:errors="*{especialidade}">Especialidade inválida</p>
+    </div>
+
+    <div>
+        <label for="licenca">Licença:</label>
+        <input type="text" id="licenca" th:field="*{licenca}" placeholder="Licença" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('licenca')}" th:errors="*{licenca}">Licença inválida</p>
+    </div>
+
+    <div>
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" th:field="*{departamentoId}" required>
+            <option th:each="dep : ${departamentos}" th:value="${dep.id}" th:text="${dep.localizacao}"></option>
+        </select>
+        <p style="color: red" th:if="${#fields.hasErrors('departamentoId')}" th:errors="*{departamentoId}">Departamento é obrigatório</p>
+    </div>
+
+    <div>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" th:field="*{endereco.cep}" placeholder="CEP" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.cep')}" th:errors="*{endereco.cep}">CEP inválido</p>
+    </div>
+
+    <div>
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" th:field="*{endereco.logradouro}" placeholder="Logradouro" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.logradouro')}" th:errors="*{endereco.logradouro}">Logradouro inválido</p>
+    </div>
+
+    <div>
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" th:field="*{endereco.numero}" placeholder="Número" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.numero')}" th:errors="*{endereco.numero}">Número inválido</p>
+    </div>
+
+    <div>
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" th:field="*{endereco.bairro}" placeholder="Bairro" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.bairro')}" th:errors="*{endereco.bairro}">Bairro inválido</p>
+    </div>
+
+    <div>
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" th:field="*{endereco.cidade}" placeholder="Cidade" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.cidade')}" th:errors="*{endereco.cidade}">Cidade inválida</p>
+    </div>
+
+    <div>
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" th:field="*{endereco.estado}" placeholder="Estado" required/>
+        <p style="color: red" th:if="${#fields.hasErrors('endereco.estado')}" th:errors="*{endereco.estado}">Estado inválido</p>
+    </div>
+
+    <div>
+        <label for="complemento">Complemento:</label>
+        <input type="text" id="complemento" th:field="*{endereco.complemento}" placeholder="Complemento (Opcional)"/>
+    </div>
+
+    <button type="submit" th:text="${medico.id != null ? 'Atualizar' : 'Cadastrar'}"></button>
+</form>
+</body>
+</html>

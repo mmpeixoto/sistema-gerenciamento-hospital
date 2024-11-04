@@ -32,6 +32,35 @@ public class TriagemService {
         return repository.save(paraTriagem(triagemDto));
     }
 
+    public Triagem inserirTriagem(Triagem triagem) {
+        var enfermeiro = enfermeiroRepository.findById(triagem.getEnfermeiroId())
+                .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));
+        var paciente = pacienteRepository.findById(triagem.getPacienteId())
+                .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
+
+        triagem.setEnfermeiro(enfermeiro);
+        triagem.setPaciente(paciente);
+        return repository.save(triagem);
+    }
+
+    public Triagem atualizarTriagem(String id, Triagem triagem) {
+        var triagemExistente = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Triagem não encontrada!"));
+        var enfermeiro = enfermeiroRepository.findById(triagem.getEnfermeiroId())
+                        .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));
+        var paciente = pacienteRepository.findById(triagem.getPacienteId())
+                .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
+
+        triagem.setId(triagemExistente.getId());
+        triagem.setEnfermeiro(enfermeiro);
+        triagem.setPaciente(paciente);
+        return repository.save(triagem);
+    }
+
+    public void deleteTriagem(String id) {
+        repository.deleteById(id);
+    }
+
     private Triagem paraTriagem(TriagemDto triagemDto) {
         var enfermeiro = enfermeiroRepository.findById(triagemDto.getEnfermeiro().getId())
                 .orElseThrow(() -> new NotFoundException("Enfermeiro não encontrado"));

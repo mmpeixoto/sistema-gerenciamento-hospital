@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="container">
+    <div class="left-section">
+        <img src="../static/logo.png" alt="Logo Multimed">
+        <h1>Multimed</h1>
+    </div>
+
+    <div class="right-section">
+        <h2>Acessar</h2>
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Digite o seu email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite a sua senha" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Entrar</button>
+            </div>
+
+            <a href="#">Recuperar Senha</a>
+        </form>
+
+        <div class="footer">
+            © Todos os direitos reservados por Multimed
+        </div>
+    </div>
+</div>
+</body>
+</html>
